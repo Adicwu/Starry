@@ -1,0 +1,115 @@
+.tab-player {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+	height: 50px;
+	background: #fff;
+	z-index: 888;
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
+	transition: all 0.3s;
+	animation-duration: .3s;
+	&._active-contain {
+		height: 100%;
+	}
+	._banner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		// filter: blur(10px);
+		z-index: -1;
+		animation-duration: 0.6s;
+		background-size: cover;
+		background-position: center;
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			width: 100%;
+			height: 100%;
+			background: #333;
+			opacity: 0.8;
+			z-index: 2;
+			transform: scale(1.2);
+		}
+		& > img {
+			transform: scale(1.4);
+		}
+	}
+	._progress {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 3px;
+		transition: transform 0.3s;
+		&._active-progress {
+			transform: translateY(306px) scaleX(0.8);
+		}
+		._progress-contain {
+			width: 0px;
+			height: 100%;
+			background: linear-gradient(to left bottom, #68f9e4, #0bdfec);
+		}
+	}
+	._info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: calc(100% - 160px);
+		height: 100%;
+		overflow: hidden;
+		padding: 0 16px;
+		box-sizing: border-box;
+		transition: all 0.3s;
+		&._active-info {
+			transform: translateY(316px);
+			width: 100%;
+			height: -webkit-fit-content;
+			align-items: center;
+			p {
+				max-width: 90%;
+				text-align: center;
+				&:first-child {
+					font-size: 1.25rem;
+					line-height: 1.4rem;
+					color: #fff;
+					font-weight: 600;
+				}
+				&:last-child {
+					margin-top: 6px;
+					font-size: 0.875rem;
+					color: rgba(255, 255, 255, 0.8);
+				}
+			}
+		}
+		p {
+			max-width: 100%;
+			&:first-child {
+				font-size: 0.875rem;
+				color: #333;
+			}
+			&:last-child {
+				font-size: 0.625rem;
+				color: #808080;
+			}
+		}
+	}
+	._num-progress {
+		position: absolute;
+		top: 280px;
+		left: 0;
+		right: 0;
+		margin: auto;
+		color: #fff;
+		display: flex;
+		justify-content: space-between;
+		width: 204px;
+		font-size: 14px;
+	}
+
+	
+}
