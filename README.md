@@ -1,2 +1,19 @@
-# Starry
-基于vue-cli4和NeteaseCloudMusicApi搭建的仿网易云音乐webApp
+# m-adic-music
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
