@@ -7,23 +7,16 @@
 ### 技术栈
 
 - 中小型项目大杀器：vue全家桶
-- Vant
+- Vant/FontAwesome/Animate.css/BetterScroll
 - Axios
-- BetterScroll
 
 ## 项目截图
 
 ## 安装运行（Build Setup）
 
 ```node
-npm install vue-router
-npm install vuex --save
-npm install axios --save
-npm install less less-loader --sava-dev
-npm install compression-webpack-plugin -D
-npm install better-scroll -S
-npm i vant -S
-
+# install dependencies
+npm install
 
 # serve with hot reload at localhost:8080
 npm run serve
