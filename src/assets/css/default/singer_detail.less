@@ -1,0 +1,178 @@
+.singer-detail {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 800;
+
+    ._header {
+        overflow: hidden;
+        ._header-tool {
+            position: absolute;
+            top: 0;
+            left: 48px;
+            width: calc(100% - 96px);
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation-duration: .4s;
+
+            ._header-tool-info {
+                width: 60%;
+                overflow: hidden;
+
+                b {
+                    font-size: 14px;
+                }
+
+                p {
+                    font-size: 10px;
+                    color: #ddd;
+                }
+            }
+
+            span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 10px;
+                height: 22px;
+                font-size: 12px;
+                border-radius: 20px;
+                background: crimson;
+            }
+        }
+    }
+
+    .singer-detail-cover {
+        position: sticky;
+        top: -60vw;
+        width: 100%;
+        height: 80vw;
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.2);
+            z-index: 2;
+        }
+        &.active {
+            z-index: 6;
+        }
+        img{
+            position: absolute;
+            top: 0;
+        }
+        ._contain{
+            position: absolute;
+            bottom: 54px;
+            width: 100%;
+            padding: 0 16px;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr 80px;
+            z-index: 4;
+            div{
+                color: #fff;
+                b{
+                    font-size: 18px;
+                }
+                p{
+                    font-size: 12px;
+                    color: #eee;
+                    margin-top: 8px;
+                }
+            }
+            span{
+                align-self: center;
+                justify-self: flex-end;
+                display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 0 12px;
+				height: 30px;
+				font-size: 12px;
+                border-radius: 20px;
+                color: #fff;
+				background: red;
+            }
+        }
+    }
+
+    .singer-detail-contain {
+        margin-top: -40px;
+        margin-bottom: 120px;
+
+        & /deep/ .van-tabs__wrap {
+            z-index: 6;
+
+            &::after {
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .van-tabs__nav {
+                border-top-left-radius: 26px;
+                border-top-right-radius: 26px;
+                background: #fff !important;
+
+                .van-tabs__line {
+                    width: 30px !important;
+                }
+            }
+
+            .van-tab__text {
+                font-size: 12px;
+            }
+        }
+    }
+
+    & /deep/ .singer-detail-popup {
+        overflow: hidden;
+
+        ._contain {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+
+            &>div:last-child {
+                margin-bottom: 100px;
+            }
+
+            p {
+                position: relative;
+                margin: 20px 16px 10px 16px;
+                text-indent: 8px;
+                font-size: 14px;
+                color: #393939;
+
+                &::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    top: 15%;
+                    left: 0;
+                    width: 3px;
+                    height: 70%;
+                    background: crimson;
+                    border-radius: 4px;
+                }
+            }
+
+            .singer-more-context {
+                margin: 0 16px;
+                font-size: 12px;
+                color: #7b7b7b;
+            }
+        }
+    }
+}

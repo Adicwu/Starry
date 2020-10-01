@@ -1,0 +1,115 @@
+#app {
+	position: relative;
+	width: 100vw;
+	height: 100%;
+
+	.app-banner {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		background: #def;
+		img{
+			
+		}
+		span {
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			padding: 4px 8px;
+			border-radius: 28px;
+			border: 1px solid #fff;
+			opacity: .4;
+			color: #fff;
+			font-size: 10px;
+		}
+	}
+
+	.flod-left-enter-active {
+		animation: flod-left-in 0.3s;
+	}
+
+	.flod-left-leave-active {
+		animation: flod-left-out 0.3s;
+	}
+
+	.flod-right-enter-active {
+		animation: flod-right-in 0.3s;
+	}
+
+	.flod-right-leave-active {
+		animation: flod-right-out 0.3s;
+	}
+
+	.child-route-in {
+		animation: child-route-in 0.4s forwards;
+	}
+
+	.child-route-out {
+		animation: child-route-out 0.4s forwards;
+	}
+
+	@keyframes flod-left-in {
+		from {
+			transform: translate3d(100%, 0, 0);
+		}
+
+		to {
+			transform: translate3d(0, 0, 0);
+		}
+	}
+
+	@keyframes flod-left-out {
+		from {
+			transform: translate3d(0, 0, 0);
+		}
+
+		to {
+			transform: translate3d(-100%, 0, 0);
+		}
+	}
+
+	@keyframes flod-right-in {
+		from {
+			transform: translate3d(-100%, 0, 0);
+		}
+
+		to {
+			transform: translate3d(0, 0, 0);
+		}
+	}
+
+	@keyframes flod-right-out {
+		from {
+			transform: translate3d(0, 0, 0);
+		}
+
+		to {
+			transform: translate3d(100%, 0, 0);
+		}
+	}
+
+	@keyframes child-route-in {
+		from {
+			transform: translate3d(0, 160px, 0);
+			opacity: 0;
+		}
+
+		to {
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes child-route-out {
+		from {
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+		}
+
+		to {
+			transform: translate3d(0, 160px, 0);
+			opacity: 0;
+		}
+	}
+}
