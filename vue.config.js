@@ -1,4 +1,3 @@
-// test
 const CompressionPlugin = require('compression-webpack-plugin'),
 	productionGzipExtensions = [
 		"js",
