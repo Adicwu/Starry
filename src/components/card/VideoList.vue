@@ -1,11 +1,15 @@
 <template>
   <li class="video-list" ref="contain" @click="toMain">
     <div class="_cover" ref="cover">
-      <img :src="info.imgurl+rectangleImgSize" alt v-img-lazyload/>
+      <img
+        :src="info.imgurl + rectangleImgSize"
+        v-if="info.imgurl"
+        v-img-lazyload
+      />
     </div>
     <div class="_info">
-      <p class="text-truncate">{{info.name}}</p>
-      <span>{{info.publishTime|toPoint}}</span>
+      <p class="text-truncate">{{ info.name }}</p>
+      <span>{{ info.publishTime | toPoint }}</span>
     </div>
   </li>
 </template>
@@ -14,27 +18,27 @@
 export default {
   name: "videolist",
   props: {
-    info: Object
+    info: Object,
   },
   filters: {
     toPoint(val) {
       return val.replace(/\-/g, ".");
-    }
+    },
   },
   methods: {
     toMain() {
-			let { cover, contain } = this.$refs,
-				query = {
-					id: this.info.id,
-					cover: cover.getBoundingClientRect(),
-					contain: contain.getBoundingClientRect()
-				};
-			this.$router.push({
-				path: '/home/mvdetail',
-				query
-			});
-		}
-  }
+      let { cover, contain } = this.$refs,
+        query = {
+          id: this.info.id,
+          cover: cover.getBoundingClientRect(),
+          contain: contain.getBoundingClientRect(),
+        };
+      this.$router.push({
+        path: "/home/mvdetail",
+        query,
+      });
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -63,7 +67,7 @@ export default {
     justify-content: center;
     width: 100%;
     height: 100%;
-	overflow: hidden;
+    overflow: hidden;
     p {
       font-size: 16px;
       color: #333;

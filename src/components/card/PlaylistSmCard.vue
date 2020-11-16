@@ -1,6 +1,14 @@
 <template>
-  <div class="playlist-sm-card" @click="toMainPage('/home/songdetail', info.id)">
-    <img :src="info.coverImgUrl+squareImgSize" alt v-img-lazyload />
+  <div
+    class="playlist-sm-card"
+    @click="toMainPage('/home/songdetail', info.id)"
+  >
+    <img
+      :src="info.coverImgUrl + squareImgSize"
+      v-if="info.coverImgUrl"
+      alt
+      v-img-lazyload
+    />
     <div class="_info">
       <p class="paragraph-truncate">{{ info.name }}</p>
       <a>{{ info.trackCount }}首</a>
@@ -12,8 +20,8 @@
 export default {
   name: "playlistsmcard",
   props: {
-    info: Object
-  }
+    info: Object,
+  },
 };
 </script>
 

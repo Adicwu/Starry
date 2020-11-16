@@ -1,14 +1,19 @@
 <template>
   <li class="audio-cover-list" @click="playMusic(info.id)">
     <div class="_cover">
-      <img :src="info.al.picUrl+squareImgSize" alt v-img-lazyload />
+      <img
+        :src="info.al.picUrl + squareImgSize"
+        v-if="info.al.picUrl"
+        alt
+        v-img-lazyload
+      />
     </div>
     <div class="_info">
       <p class="text-truncate">
-        {{info.name}}
-        <a>{{songNameTns || songNameElse}}</a>
+        {{ info.name }}
+        <a>{{ songNameTns || songNameElse }}</a>
       </p>
-      <span class="text-truncate">{{singerName}}</span>
+      <span class="text-truncate">{{ singerName }}</span>
     </div>
     <span></span>
   </li>
@@ -18,7 +23,7 @@
 export default {
   name: "audiocoverlist",
   props: {
-    info: Object
+    info: Object,
   },
   computed: {
     singerName() {
@@ -32,7 +37,7 @@ export default {
     songNameElse() {
       let { alia } = this.info;
       return alia.length > 0 ? `(${alia[0]})` : "";
-    }
+    },
   },
   methods: {
     playMusic(id) {
@@ -40,18 +45,18 @@ export default {
         info: {
           alg: null,
           id,
-          v: null
+          v: null,
         },
         obj: {
           list: [],
           id: null,
-          index: 0
-        }
+          index: 0,
+        },
       };
-      this.$store.dispatch("newMusic", key).then(res => {
+      this.$store.dispatch("newMusic", key).then((res) => {
         this.$bus.emit("playerOpen");
       });
-    }
+    },
   },
 };
 </script>

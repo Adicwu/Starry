@@ -1,12 +1,12 @@
 <template>
   <div class="dj-detail">
     <BreakHeader title="电台" fixed />
-    <div class="dj-detail-cover" ref="cover" :class="{active: flags.cover}">
-      <img :src="detail.picUrl+'?param=700y700'" alt />
+    <div class="dj-detail-cover" ref="cover" :class="{ active: flags.cover }">
+      <img :src="detail.picUrl + '?param=700y700'" v-if="detail.picUrl" alt />
       <div class="_info" v-show="flags.contain">
         <div>
-          <b>{{detail.name}}</b>
-          <p>共 {{detail.programCount}} 期</p>
+          <b>{{ detail.name }}</b>
+          <p>共 {{ detail.programCount }} 期</p>
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@ export default {
   components: {
     DjAbout,
     DjShow,
-    DjSimilar
+    DjSimilar,
   },
   data() {
     return {
@@ -53,16 +53,16 @@ export default {
         list: [
           { text: "详情", comp: "DjAbout" },
           { text: "节目", comp: "DjShow" },
-          { text: "相似", comp: "DjSimilar" }
+          { text: "相似", comp: "DjSimilar" },
         ],
-        active: 0
+        active: 0,
       },
       detail: {},
       flags: {
         contain: false,
         load: false,
-        cover: false
-      }
+        cover: false,
+      },
     };
   },
   computed: {
@@ -74,15 +74,15 @@ export default {
     },
     hasPos() {
       return typeof this.enterCover === "object";
-    }
+    },
   },
   mounted() {
     this.mainRequset();
   },
   methods: {
     mainRequset() {
-      djDetail(this.pageId).then(res => {
-        this.detail = res.data.djRadio;
+      djDetail(this.pageId).then((res) => {
+        this.detail = res.data.data;
         this.flags.load = true;
         this.anmCounter();
         setTimeout(() => (this.flags.contain = true), 400);
@@ -100,20 +100,20 @@ export default {
         {
           transform: `translate3d(${xdistance}px, ${ydistance}px,0)`,
           width: `${pos.width}px`,
-          height: `${pos.height}px`
+          height: `${pos.height}px`,
         },
         {
           transform: "translate3d(0,0,0)",
           width: `${oldpos.width}px`,
-          height: `${oldpos.height}px`
-        }
+          height: `${oldpos.height}px`,
+        },
       ];
       const options = {
-        duration: 400
+        duration: 400,
       };
       dom.animate(keyframes, options);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -5,15 +5,19 @@
     :perpage="10"
     :isbind="isActive"
     target=".singer-detail"
+    v-loading="!flags.load"
     v-if="flags.load"
   >
     <div class="_title">
-        <span>全部 <a>(共{{mvs.length}}个)</a></span>
-        <div>
-            <span class="active">全部</span>
-            <a>|</a>
-            <span>MV</span>
-        </div>
+      <span>
+        全部
+        <a>(共{{mvs.length}}个)</a>
+      </span>
+      <div>
+        <span class="active">全部</span>
+        <a>|</a>
+        <span>MV</span>
+      </div>
     </div>
     <template #contain="{curdata}">
       <VideoList v-for="item in curdata" :key="item.id" :info="item" />
@@ -65,40 +69,40 @@ export default {
 <style lang="less" scoped>
 .singer-detail-mv {
   width: 100%;
-  ._title{
+  ._title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 16px;
+    padding: 16px 0;
+    & > span {
+      font-size: 15px;
+      font-weight: 800;
+      a {
+        font-weight: 100;
+        color: #999;
+        font-size: 12px;
+        margin-left: 3px;
+      }
+    }
+    & > div {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin: 0 16px;
-      padding: 16px 0;
-      &>span{
-          font-size: 15px;
-          font-weight: 800;
-          a{
-              font-weight: 100;
-              color: #999;
-              font-size: 12px;
-              margin-left: 3px;
-          }
+      align-items: flex-end;
+      width: 60px;
+      height: 16px;
+      font-size: 12px;
+      line-height: 12px;
+      span {
+        &.active {
+          color: crimson;
+        }
       }
-      &>div{
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          width: 60px;
-          height: 16px;
-          font-size: 12px;
-          line-height: 12px;
-          span{
-              &.active{
-                  color: crimson;
-              }
-          }
-          a{
-            //   margin-top: -4px;
-              color: #eee;
-          }
+      a {
+        //   margin-top: -4px;
+        color: #eee;
       }
+    }
   }
 }
 </style>

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-	name: 'editinputlist',
+	name: 'AvatarList',
 	props: {
 		title: String,
 		value: String

@@ -1,12 +1,14 @@
 <template>
-  <div class="explore" v-scroll-top="scrollTop" v-if="reloadflag">
-    <PullRefresh :reloadFn="reloadPage" :disabled="isScrollTop">
-      <ExBanner />
-      <ExMvTop />
-      <ExBoutiqueAudioList />
-      <ExRmdRadiosStation />
-    </PullRefresh>
-  </div>
+  <PullRefresh :reloadFn="reloadPage" class="explore" v-if="flags.reload">
+    <ExBanner @loaded="exBannerLoaded" />
+    <transition enter-active-class="animated fadeIn">
+      <div v-show="flags.elseBlock">
+        <ExMvTop />
+        <ExBoutiqueAudioList />
+        <ExRmdRadiosStation />
+      </div>
+    </transition>
+  </PullRefresh>
 </template>
 
 <script>
@@ -21,36 +23,38 @@ export default {
     ExBanner,
     ExRmdRadiosStation,
     ExMvTop,
-    ExBoutiqueAudioList
+    ExBoutiqueAudioList,
   },
   data() {
     return {
-      isScrollTop: true,
-      reloadflag: true
+      flags: {
+        reload: true,
+        elseBlock: false,
+      },
     };
   },
   mounted() {
-    this.mainRequest();
+    // this.mainRequest();
   },
   methods: {
     mainRequest() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve();
       });
     },
     reloadPage() {
-      this.reloadflag = false;
-      return new Promise(resolve => {
+      this.flags.reload = false;
+      return new Promise((resolve) => {
         setTimeout(() => {
-          this.reloadflag = true;
+          this.flags.reload = true;
         });
         resolve();
       });
     },
-    scrollTop(val) {
-      this.isScrollTop = val;
-    }
-  }
+    exBannerLoaded(res) {
+      this.flags.elseBlock = res;
+    },
+  },
 };
 </script>
 

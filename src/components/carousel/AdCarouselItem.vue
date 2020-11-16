@@ -30,8 +30,6 @@ export default {
 .ad-carousel-item {
 	position: relative;
 	display: inline-block;
-	font-size: 1.25rem;
-	font-weight: 800;
 	width: 100vw;
 	height: 100%;
 	overflow: hidden;

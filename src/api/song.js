@@ -31,3 +31,8 @@ export function songLyric(id) {
 export function songCheck(id) {
 	return getax(`check/music?id=${id}`, false)
 }
+
+//获取歌曲评论
+export function songComment(id, limit = 20, offset = 0, before = 0) {
+	return getax(`comment/music?id=${id}&limit=${limit}&offset=${offset}`)
+}

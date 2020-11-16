@@ -12,7 +12,12 @@
       <span ref="sname">{{ info.name }}</span>
     </div>
     <div class="_cover" ref="cover">
-      <img :src="info.cover+rectangleImgSize" v-img-lazyload alt />
+      <img
+        :src="info.cover + rectangleImgSize"
+        v-if="info.cover"
+        v-img-lazyload
+        alt
+      />
       <van-icon name="play-circle-o" />
     </div>
     <div class="_else">
@@ -30,31 +35,31 @@ import AvatarsHandler from "comps/tool/AvatarsHandler";
 export default {
   name: "mvlgcard",
   components: {
-    AvatarsHandler
+    AvatarsHandler,
   },
   props: {
-    info: Object
+    info: Object,
   },
   data() {
     return {
-      artists: []
+      artists: [],
     };
   },
   computed: {
     artistsAvatars() {
-      return this.artists.map(item => item.picUrl);
+      return this.artists.map((item) => item.picUrl);
     },
     fullSingerName() {
-      return this.info.artists.map(item => item.name).join("/");
-    }
+      return this.info.artists.map((item) => item.name).join("/");
+    },
   },
   mounted() {
     // this.artistsAvatarsHandler();
   },
   methods: {
     artistsAvatarsHandler() {
-      this.info.artists.forEach(item => {
-        artists(item.id).then(res => {
+      this.info.artists.forEach((item) => {
+        artists(item.id).then((res) => {
           this.artists.push(res.data.artist);
         });
       });
@@ -64,14 +69,14 @@ export default {
         query = {
           id: this.info.id,
           cover: cover.getBoundingClientRect(),
-          contain: contain.getBoundingClientRect()
+          contain: contain.getBoundingClientRect(),
         };
       this.$router.push({
         path: "/home/mvdetail",
-        query
+        query,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

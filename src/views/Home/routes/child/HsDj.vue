@@ -5,9 +5,11 @@
     :perpage="12"
     :request="mainRequset"
     resword="djRadios"
+    v-loading="!flags.load"
+    @firstLoad="firstLoad"
   >
-    <template #contain="{curdata}">
-      <DjradioItem v-for="(item,index) in curdata" :key="index" :info="item" />
+    <template #contain="{ curdata }">
+      <DjradioItem v-for="(item, index) in curdata" :key="index" :info="item" />
     </template>
   </BotLoadRequest>
 </template>
@@ -19,14 +21,17 @@ import DjradioItem from "comps/item/DjradioItem";
 export default {
   name: "homesearchmv",
   components: {
-    DjradioItem
+    DjradioItem,
   },
   props: {
-    keyword: String
+    keyword: String,
   },
   data() {
     return {
-      djRadios: []
+      djRadios: [],
+      flags: {
+        load: false,
+      },
     };
   },
   mounted() {
@@ -34,16 +39,19 @@ export default {
   },
   methods: {
     mainRequset(...args) {
-      return new Promise(resolve => {
-        mixSearch(this.keyword, 1009, ...args).then(res => {
+      return new Promise((resolve) => {
+        mixSearch(this.keyword, 1009, ...args).then((res) => {
           let { djRadios } = res.data.result;
           resolve({
-            data: { djRadios }
+            data: { djRadios },
           });
         });
       });
-    }
-  }
+    },
+    firstLoad(res) {
+      this.flags.load = res;
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

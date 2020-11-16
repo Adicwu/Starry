@@ -7,20 +7,30 @@
       </span>
     </div>
     <Scroll scrollX bounce class="_contain">
-      <div class="_contain-item" v-for="(item, index) in curList" :key="item.id">
-        <div class="_cover" ref="cover" @click.stop="toMain($event,item.id)">
-          <img :src="item.picUrl+squareImgSize" alt v-img-loader/>
-          <span @click="changeMusic(item, index)">
-            <i
-              class="fa"
-              :class="[curMusicId != item.id || !curMusicStatus ? 'fa-play' : 'fa-pause']"
-            ></i>
-            9.4w
-          </span>
-        </div>
-        <div class="_info">
-          <p>{{ item.name }}</p>
-          <span>{{ item.dj.nickname }}</span>
+      <div class="dj-rmd-block__items">
+        <div
+          class="_contain-item"
+          v-for="(item, index) in curList"
+          :key="item.id"
+        >
+          <div class="_cover" ref="cover" @click.stop="toMain($event, item.id)">
+            <img :src="item.picUrl + squareImgSize" alt v-img-loader />
+            <span @click="changeMusic(item, index)">
+              <i
+                class="fa"
+                :class="[
+                  curMusicId != item.id || !curMusicStatus
+                    ? 'fa-play'
+                    : 'fa-pause',
+                ]"
+              ></i>
+              9.4w
+            </span>
+          </div>
+          <div class="_info">
+            <p>{{ item.name }}</p>
+            <span>{{ item.dj.nickname }}</span>
+          </div>
         </div>
       </div>
     </Scroll>
@@ -33,12 +43,12 @@ export default {
   name: "djrmdblock",
   props: {
     type: Number,
-    title: String
+    title: String,
   },
   data() {
     return {
       list: [],
-      loadFlag: false
+      loadFlag: false,
     };
   },
   computed: {
@@ -51,14 +61,14 @@ export default {
     },
     curMusicStatus() {
       return this.$store.state.music.status;
-    }
+    },
   },
   mounted() {
     this.mainRequest();
   },
   methods: {
     mainRequest() {
-      rmdDj(this.type).then(res => {
+      rmdDj(this.type).then((res) => {
         this.list = res.data.djRadios;
         this.loadFlag = true;
       });
@@ -68,8 +78,8 @@ export default {
       if (this.curMusicId === id) {
         return this.$store.commit("musicPlay");
       }
-      djProgram(id).then(res => {
-        let list = res.data.programs.map(item => ({ id: item.mainSong.id }));
+      djProgram(id).then((res) => {
+        let list = res.data.programs.map((item) => ({ id: item.mainSong.id }));
         let obj = { list, id, index: 0 };
         this.$store.dispatch("changeCurMusic", obj);
       });
@@ -77,14 +87,14 @@ export default {
     toMain(e, id) {
       let query = {
         id,
-        cover: e.target.getBoundingClientRect()
+        cover: e.target.getBoundingClientRect(),
       };
       this.$router.push({
         path: "/home/djdetail",
-        query
+        query,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -110,54 +120,60 @@ export default {
     margin-top: 10px;
     width: 100%;
     & /deep/ .content {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 1f);
       width: 133vw;
-      height: 100%;
+      height: 96vw;
       padding: 0 8px;
       box-sizing: border-box;
     }
-    ._contain-item {
-      margin: 0 10px;
-      height: 48vw;
-      ._cover {
-        position: relative;
+    .dj-rmd-block__items {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 10px;
+      ._contain-item {
         width: 100%;
-        padding: 50% 0;
-        background: #def;
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
+        height: 100%;
+        overflow: hidden;
+        ._cover {
+          position: relative;
           width: 100%;
-          height: 100%;
-          border-radius: 8px;
-        }
-        span {
-          position: absolute;
-          padding: 6px 8px;
-          left: 0;
-          bottom: -10px;
-          border-radius: 23px;
-          background: rgba(0, 0, 0, 0.8);
-          color: #fff;
-          font-size: 10px;
-          i {
-            margin-right: 3px;
-            width: 10px;
+          padding: 50% 0;
+          background: #def;
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+          }
+          span {
+            position: absolute;
+            padding: 6px 8px;
+            left: 0;
+            bottom: -10px;
+            border-radius: 23px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-size: 10px;
+            i {
+              margin-right: 3px;
+              width: 10px;
+            }
           }
         }
-      }
-      ._info {
-        margin-top: 14px;
-        p {
-          font-size: 12px;
-          color: rgba(0, 0, 0, 0.9);
-        }
-        span {
-          font-size: 11px;
-          color: #707070;
+        ._info {
+          margin-top: 14px;
+          p {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.9);
+          }
+          span {
+            font-size: 11px;
+            color: #707070;
+          }
         }
       }
     }

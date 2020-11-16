@@ -5,6 +5,8 @@
     :perpage="12"
     :request="mainRequset"
     resword="playlists"
+     v-loading="!flags.load"
+    @firstLoad="firstLoad"
   >
     <template #contain="{curdata}">
       <SonglistItem
@@ -32,7 +34,10 @@ export default {
   },
   data() {
     return {
-      songlist: []
+      songlist: [],
+      flags: {
+        load: false,
+      },
     };
   },
   mounted() {
@@ -48,7 +53,10 @@ export default {
           });
         });
       });
-    }
+    },
+    firstLoad(res) {
+      this.flags.load = res;
+    },
   }
 };
 </script>

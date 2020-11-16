@@ -9,16 +9,17 @@ import {
 Vue.use(Toast);
 
 let state_his = localStorage.getItem('music_his') ? JSON.parse(localStorage.getItem('music_his')) : {
-		curindex: null,
-		curlist: [],
-		curlistid: 0,
-		cururl: null,
-		curMusicInfo: null,
-	},
+	curindex: null,
+	curlist: [],
+	curlistid: 0,
+	cururl: null,
+	curMusicInfo: null,
+},
 	state_base = {
 		volume: 0.6,
 		eventflag: false,
 		status: 0, //0暂停 1播放 2加载
+		playerFlag: false,
 	}
 export default {
 	state: {
@@ -61,6 +62,9 @@ export default {
 		changeCurMusicInfo(state, flag) {
 			state.curMusicInfo = flag
 		},
+		changePlayerFlag(state, res) {
+			state.playerFlag = res
+		},
 		addCurItem(state, info) {
 			if (info === null) return;
 			if (state.curlist.findIndex(item => item.id === info.id) === -1) {
@@ -72,7 +76,7 @@ export default {
 			let key = state.curlist.findIndex(item => item.id === info.id)
 			if (key === -1) {
 				state.curlist.splice(state.curindex + 1, 0, info);
-			}else{
+			} else {
 
 			}
 		},
@@ -84,7 +88,6 @@ export default {
 			}
 		},
 		curPlay(state) {
-			console.log(state);
 			let dom = document.getElementById('myaudio')
 			state.status = 0
 			dom.oncanplay = e => {

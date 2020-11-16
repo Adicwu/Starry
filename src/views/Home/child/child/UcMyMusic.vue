@@ -3,17 +3,17 @@
     <b>我的音乐</b>
     <Scroll scrollX bounce class="mymusic-contain" v-if="loadflag">
       <div class="mymusic-item" @click="toMainDetail">
-        <ImgLoader class="_cover" :src="list.like.cover+imgSize" />
+        <ImgLoader class="_cover" :src="list.like.cover + imgSize" />
         <van-icon name="like" />
         <span>我喜欢的音乐</span>
       </div>
       <div class="mymusic-item">
-        <ImgLoader class="_cover" :src="list.fm.cover+imgSize" />
+        <ImgLoader class="_cover" :src="list.fm.cover + imgSize" />
         <van-icon name="shop-collect" />
         <span>私人FM</span>
       </div>
       <div class="mymusic-item">
-        <ImgLoader class="_cover" :src="list.rmd.cover+imgSize" />
+        <ImgLoader class="_cover" :src="list.rmd.cover + imgSize" />
         <van-icon name="new" />
         <span>推荐最新音乐</span>
       </div>
@@ -32,19 +32,19 @@ export default {
       list: {
         like: {
           cover: "",
-          id: 0
+          id: 0,
         },
         fm: {
           cover: "",
-          id: 0
+          id: 0,
         },
         rmd: {
           cover: "",
-          id: 0
-        }
+          id: 0,
+        },
       },
       loadflag: false,
-      imgSize: "?param=225y300"
+      imgSize: "?param=225y300",
     };
   },
   computed: {},
@@ -56,8 +56,8 @@ export default {
       Promise.all([
         userPlaylist(this.user.userid),
         personalFm(),
-        rmdNewsSong()
-      ]).then(arr => {
+        rmdNewsSong(),
+      ]).then((arr) => {
         this.likeListHandler(arr[0].data.playlist[0]);
         this.list.fm.cover = arr[1].data.data[0].album.picUrl;
         this.list.rmd.cover = arr[2].data.result[0].picUrl;
@@ -70,8 +70,8 @@ export default {
     },
     toMainDetail() {
       this.toMainPage("/home/songdetail", this.list.like.id);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -90,14 +90,13 @@ export default {
 
     .mymusic-item {
       position: relative;
-      float: left;
       margin-left: 16px;
       display: inline-flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: flex-end;
-      width: 120px;
-      height: 160px;
+      width: 36vw;
+      height: 46vw;
       box-sizing: border-box;
       padding: 10px;
       border-radius: 8px;

@@ -1,8 +1,8 @@
 <template>
   <li class="song-list-item" @click="toMainPage('/home/songdetail', id)">
-    <img :src="cover+squareImgSize" v-img-lazyload alt />
+    <img :src="cover + squareImgSize" v-if="cover" v-img-lazyload alt />
     <div>
-      <span class="text-truncate">{{title}}</span>
+      <span class="text-truncate">{{ title }}</span>
       <p class="text-truncate">
         <slot></slot>
       </p>
@@ -16,7 +16,7 @@ export default {
   props: {
     cover: String,
     title: String,
-    id: Number
+    id: Number,
   },
 };
 </script>

@@ -8,12 +8,12 @@ import {
 
 //推荐视频
 export function rmdVideo(offset = 0) {
-	return getax(`video/timeline/recommend?offset=${offset}&cookie=${getCookie()}`)
+	return getax(`video/timeline/recommend?offset=${offset}`)
 }
 
 //全部视频列表
 export function videoLists(offset = 0) {
-	return getax(`video/timeline/all?offset=${offset}&cookie=${getCookie()}`)
+	return getax(`video/timeline/all?offset=${offset}`)
 }
 
 //标签/分类视频

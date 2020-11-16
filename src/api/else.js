@@ -16,9 +16,9 @@ export function rmdRadiostation() {
 export function mvTop(limit) {
 	return getax(`top/mv?limit=${limit}`)
 }
-export function hotComment(id, type, limit = 10) {
+export function hotComment(id, type, limit = 10, offset = 0) {
 	// 0: 歌曲 1: mv 2: 歌单  3: 专辑 4: 电台 5: 视频
-	return getax(`comment/hot?id=${id}&type=${type}&limit=${limit}`)
+	return getax(`comment/hot?id=${id}&type=${type}&limit=${limit}&offset=${offset}`)
 }
 //相关列表(电台、歌单)
 export function relatedList(id) {
@@ -62,4 +62,9 @@ export function mixSearch(key, type = 1, limit = 40, offset = 0) {
 	} else {
 		return getax(`search?keywords=${key}&limit=${limit}&type=${type}&offset=${offset}`)
 	}
+}
+
+//搜索提示
+export function searchSuggest(keywords) {
+	return getax(`search/suggest?keywords= ${keywords}&type=mobile`)
 }

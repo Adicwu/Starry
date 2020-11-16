@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       banner: [],
-	  loadflag: false,
-	  imgSize: '?param=800y342'
+      loadflag: false,
+      imgSize: "?param=800y342"
     };
   },
   mounted() {
@@ -38,6 +38,7 @@ export default {
       getBanner().then(res => {
         this.banner = res.data.banners;
         this.loadflag = true;
+        this.$emit("loaded", true);
       });
     },
     bannerClick(item) {

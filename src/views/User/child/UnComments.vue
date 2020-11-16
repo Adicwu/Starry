@@ -28,7 +28,6 @@ export default {
     mainRequest() {
       commentsMsg(this.user.userid).then(res => {
         this.comments = res.data.comments;
-        console.log(res.data.comments);
       });
     }
   }

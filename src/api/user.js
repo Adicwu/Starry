@@ -28,9 +28,7 @@ export function userDetail(id) {
 
 //修改用户资料
 export function userUpdate(key) {
-	return postax('user/update', {
-		...key,
-	})
+	return postax('user/update', key)
 }
 
 //用户歌单
@@ -40,7 +38,7 @@ export function userPlaylist(id) {
 
 //用户信息 , 歌单，收藏，mv, dj 数量
 export function userSubcount() {
-	return getax(`user/subcount?cookie=${getCookie()}`)
+	return getax(`user/subcount`)
 }
 
 //用户动态
@@ -50,27 +48,27 @@ export function userEvent(id, limit = 30, lasttime = -1) {
 
 //用户消息
 export function mixNews(pagesize = 30, lasttime = -1) {
-	return getax(`event?pagesize=${pagesize}&lasttime=${lasttime}&cookie=${getCookie()}`)
+	return getax(`event?pagesize=${pagesize}&lasttime=${lasttime}`)
 }
 
 //用户关注列表
 export function userFollows(uid, limit = 30, offset = 0) {
-	return getax(`user/follows?uid=${uid}&limit=${limit}&offset =${offset }`)
+	return getax(`user/follows?uid=${uid}&limit=${limit}&offset =${offset}`)
 }
 
 //用户粉丝列表
 export function userFolloweds(uid, limit = 30, lasttime = -1) {
-	return getax(`user/followeds?uid=${uid}&limit=${limit}&lasttime=${lasttime}&cookie=${getCookie()}`)
+	return getax(`user/followeds?uid=${uid}&limit=${limit}&lasttime=${lasttime}`)
 }
 
 //用户歌手列表
 export function userAartistSub() {
-	return getax(`artist/sublist?&cookie=${getCookie()}`)
+	return getax(`artist/sublist`)
 }
 
 //喜欢列表
 export function userLikelist(id) {
-	return getax(`likelist?uid=${id}&cookie=${getCookie()}`)
+	return getax(`likelist?uid=${id}`)
 }
 
 //私人fm
@@ -78,8 +76,9 @@ export function personalFm() {
 	return getax(`personal_fm`)
 }
 
-export function songLikeHandler(id, like) {
-	return getax(`like/?id=${id}&like=${like}`)
+//单曲喜欢
+export function songLikeHandler(key) {
+	return postax(`like`, key)
 }
 
 export function eventChat(threadId) {
@@ -88,20 +87,20 @@ export function eventChat(threadId) {
 
 // 通知 - 私信
 export function privateMsg(limit = 30, offset = 0) {
-	return getax(`msg/private?limit=${limit}&offset=${offset}&cookie=${getCookie()}`)
+	return getax(`msg/private?limit=${limit}&offset=${offset}`)
 }
 
 // 通知 - 评论
 export function commentsMsg(uid, limit = 30, before = 0) {
-	return getax(`msg/comments?uid=${uid}&limit=${limit}&before=${before}&cookie=${getCookie()}`)
+	return getax(`msg/comments?uid=${uid}&limit=${limit}&before=${before}`)
 }
 
 // 通知 - @我
 export function forwardsMsg(limit = 30, offset = 0) {
-	return getax(`msg/forwards?limit=${limit}&offset=${offset}&cookie=${getCookie()}`)
+	return getax(`msg/forwards?limit=${limit}&offset=${offset}`)
 }
 
 // 通知 - 通知
 export function noticesMsg(limit = 30, lasttime = -1) {
-	return getax(`msg/notices?limit=${limit}&lasttime=${lasttime}&cookie=${getCookie()}`)
+	return getax(`msg/notices?limit=${limit}&lasttime=${lasttime}`)
 }

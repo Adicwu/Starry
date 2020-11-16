@@ -12,10 +12,13 @@ import '@/plugins/ADialog'
 import '@/utils/Filters'
 import ToolFunc from '@/utils/ToolFunc'
 import AdDirect from '@/utils/AdDirect'
+import LoadingBlock from '@/components/utils/LoadingBlock'
 import Bus from '@/utils/Bus'
 Vue.use(AdDirect)
 Vue.use(ToolFunc)
 Vue.use(Bus)
+Vue.use(LoadingBlock)
+
 
 //axios
 Vue.prototype.axios = axios

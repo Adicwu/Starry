@@ -5,10 +5,12 @@
     :perpage="12"
     :request="mainRequset"
     resword="albums"
+    v-loading="!flags.load"
+    @firstLoad="firstLoad"
   >
-    <template #contain="{curdata}">
+    <template #contain="{ curdata }">
       <ul>
-        <AlbumList v-for="(item,index) in curdata" :key="index" :info="item" />
+        <AlbumList v-for="(item, index) in curdata" :key="index" :info="item" />
       </ul>
     </template>
   </BotLoadRequest>
@@ -21,26 +23,33 @@ import AlbumList from "comps/card/AlbumList";
 export default {
   name: "homesearchalbum",
   components: {
-    AlbumList
+    AlbumList,
   },
   props: {
-    keyword: String
+    keyword: String,
   },
   data() {
-    return {};
+    return {
+      flags: {
+        load: false,
+      },
+    };
   },
   methods: {
     mainRequset(...args) {
-      return new Promise(resolve => {
-        mixSearch(this.keyword, 10, ...args).then(res => {
+      return new Promise((resolve) => {
+        mixSearch(this.keyword, 10, ...args).then((res) => {
           let { albums } = res.data.result;
           resolve({
-            data: { albums }
+            data: { albums },
           });
         });
       });
-    }
-  }
+    },
+    firstLoad(res) {
+      this.flags.load = res;
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

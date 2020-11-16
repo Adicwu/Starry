@@ -3,7 +3,7 @@
     <BreakHeader fixed />
     <SingleVideo
       class="_player"
-      :class="{'_active':flags.popup}"
+      :class="{ _active: flags.popup }"
       :isControllable="!flags.popup"
       :src="detail.urlInfo.url"
       @click.native="closePopup"
@@ -16,26 +16,29 @@
         </div>
         <ul class="_tools-items">
           <li @click="praiseHanlder">
-            <i class="fa fa-thumbs-up" :class="{'praised-active':flags.isPraised}"></i>
-            {{detail.praisedCount}}
+            <i
+              class="fa fa-thumbs-up"
+              :class="{ 'praised-active': flags.isPraised }"
+            ></i>
+            {{ detail.praisedCount }}
           </li>
-          <li @click="flags.popup=true">
+          <li @click="flags.popup = true">
             <i class="fa fa-commenting"></i>
-            {{detail.commentCount}}
+            {{ detail.commentCount }}
           </li>
           <li>
             <i class="fa fa-share-alt"></i>
-            {{detail.shareCount}}
+            {{ detail.shareCount }}
           </li>
         </ul>
       </aside>
     </transition>
 
     <footer class="_creator" v-show="flags.contain && !flags.popup">
-      <b @click="toCreator">@{{creator.nickname}}</b>
-      <p class="paragraph-truncate">{{detail.title}}</p>
+      <b @click="toCreator">@{{ creator.nickname }}</b>
+      <p class="paragraph-truncate">{{ detail.title }}</p>
     </footer>
-    <VdPopup :visiable="flags.popup" :videoId="detail.vid" />
+    <VdPopup :visiable.sync="flags.popup" :videoId="detail.vid" />
   </div>
 </template>
 
@@ -46,15 +49,15 @@ export default {
   name: "videodetail",
   components: {
     SingleVideo,
-    VdPopup
+    VdPopup,
   },
   data() {
     return {
       flags: {
         contain: false,
         isPraised: false,
-        popup: false
-      }
+        popup: false,
+      },
     };
   },
   computed: {
@@ -68,12 +71,12 @@ export default {
     },
     creator() {
       return this.detail.creator;
-    }
+    },
   },
   mounted() {
     if (!this.detail) return this.$router.replace("/home");
     this.anmCounter();
-    setTimeout(e => (this.flags.contain = true), 500);
+    setTimeout((e) => (this.flags.contain = true), 500);
   },
   methods: {
     anmCounter() {
@@ -87,16 +90,16 @@ export default {
         {
           transform: `translate3d(${xdistance}px, ${ydistance}px,0)`,
           width: `${pos.width}px`,
-          height: `${pos.height}px`
+          height: `${pos.height}px`,
         },
         {
           transform: "translate3d(0,0,0)",
           width: `${oldpos.width}px`,
-          height: `${oldpos.height}px`
-        }
+          height: `${oldpos.height}px`,
+        },
       ];
       const options = {
-        duration: 400
+        duration: 400,
       };
       dom.animate(keyframes, options);
     },
@@ -108,8 +111,8 @@ export default {
     },
     toCreator() {
       this.toMainPage("/home/userdetail", this.creator.userId);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

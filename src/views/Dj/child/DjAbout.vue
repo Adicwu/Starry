@@ -1,31 +1,37 @@
 <template>
   <div class="dj-detail-adout">
-    <div class="_anchor">
-      <p>主播</p>
-      <div class="_anchor-info">
-        <img :src="creator.avatarUrl+squareImgSize" alt @click="toMainPage('/home/userdetail',creator.userId)" />
-        <div>
-          <p>{{creator.nickname}}</p>
-          <span>著名音乐节目主持人</span>
+    <div v-loading="!flags.load">
+      <div class="_anchor">
+        <p>主播</p>
+        <div class="_anchor-info">
+          <img
+            :src="creator.avatarUrl+squareImgSize"
+            alt
+            @click="toMainPage('/home/userdetail',creator.userId)"
+          />
+          <div>
+            <p>{{creator.nickname}}</p>
+            <span>著名音乐节目主持人</span>
+          </div>
+          <input type="button" value="关注" />
         </div>
-        <input type="button" value="关注" />
       </div>
-    </div>
-    <div class="_info">
-      <p>电台内容简介</p>
-      <div class="_info-cate">
-        分类：
-        <span>{{detail.category}}</span>
+      <div class="_info">
+        <p>电台内容简介</p>
+        <div class="_info-cate">
+          分类：
+          <span>{{detail.category}}</span>
+        </div>
+        <div class="_info-desc">{{detail.desc}}</div>
       </div>
-      <div class="_info-desc">{{detail.desc}}</div>
-    </div>
-    <div class="_comment" v-if="hasHotComment">
-      <p>精彩评论</p>
-      <ul class="_comment-item">
-        <li>
-          <!-- <img :src="" alt=""> -->
-        </li>
-      </ul>
+      <div class="_comment" v-if="hasHotComment">
+        <p>精彩评论</p>
+        <ul class="_comment-item">
+          <li>
+            <!-- <img :src="" alt=""> -->
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +47,9 @@ export default {
   data() {
     return {
       hotComment: [],
-      loadFlag: false
+      flags: {
+        load: false
+      }
     };
   },
   computed: {
@@ -62,7 +70,7 @@ export default {
     mainRequset() {
       djComment(this.pageId).then(res => {
         this.hotComment = res.data.hotComments;
-        this.loadFlag = true;
+        this.flags.load = true;
       });
     }
   }
@@ -72,7 +80,7 @@ export default {
 <style scoped lang="less">
 .dj-detail-adout {
   width: 100%;
-  & > div {
+  & > div > div {
     padding-top: 10px;
     width: 100%;
     & > p {

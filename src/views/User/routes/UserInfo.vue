@@ -1,17 +1,23 @@
 <template>
   <div class="user-info">
     <BreakHeader title="我的资料" color="#000" />
-    <div class="user-info-block" v-if="flags.load">
-      <AvatarList title="头像" v-model="avatar.path" />
-      <EditInputList title="昵称" v-model="form.nickname" />
-      <RadioList title="性别" :list="selector.gender" v-model="form.gender" />
-    </div>
-    <div class="user-info-block" v-if="flags.load">
-      <DatePickerList title="生日" v-model="form.birthday" />
-      <AreaPickerList title="地区" :province.sync="form.province" :city.sync="form.city" />
-    </div>
-    <div class="user-info-block" v-if="flags.load">
-      <TextAreaList title="签名" v-model="form.signature" />
+    <div v-loading="!flags.load">
+      <div class="user-info-block">
+        <AvatarList title="头像" v-model="avatar.path" />
+        <EditInputList title="昵称" v-model="form.nickname" />
+        <RadioList title="性别" :list="selector.gender" v-model="form.gender" />
+      </div>
+      <div class="user-info-block">
+        <DatePickerList title="生日" v-model="form.birthday" />
+        <AreaPickerList
+          title="地区"
+          :province.sync="form.province"
+          :city.sync="form.city"
+        />
+      </div>
+      <div class="user-info-block">
+        <TextAreaList title="签名" v-model="form.signature" />
+      </div>
     </div>
   </div>
 </template>
@@ -32,12 +38,12 @@ export default {
     DatePickerList,
     AreaPickerList,
     TextAreaList,
-    AvatarList
+    AvatarList,
   },
   data() {
     return {
       avatar: {
-        path: ""
+        path: "",
       },
       form: {
         gender: 0,
@@ -45,17 +51,17 @@ export default {
         nickname: "",
         province: 0,
         city: 0,
-        signature: ""
+        signature: "",
       },
       selector: {
-        gender: ["保密", "男", "女"]
+        gender: ["保密", "男", "女"],
       },
       flags: {
-        load: false
+        load: false,
       },
       counts: {
-        request: 0
-      }
+        request: 0,
+      },
     };
   },
   watch: {
@@ -64,26 +70,26 @@ export default {
       handler(val) {
         this.counts.request > 0 && this.updateInfo();
         this.counts.request++;
-      }
-    }
+      },
+    },
   },
   computed: {
     userId() {
       return this.$route.query.id;
-    }
+    },
   },
   mounted() {
     this.mainRequest();
   },
   methods: {
     mainRequest() {
-      userDetail(this.userId).then(res => {
+      userDetail(this.userId).then((res) => {
         this.dataInit(res.data.profile);
         this.flags.load = true;
       });
     },
     dataInit(val) {
-      Object.keys(this.form).forEach(item => {
+      Object.keys(this.form).forEach((item) => {
         this.form[item] = val[item];
       });
       this.avatar.path = val.avatarUrl;
@@ -91,13 +97,13 @@ export default {
     updateInfo() {
       let { cookie } = this.$store.state.user;
       let key = {
-        ...this.form
+        ...this.form,
       };
-      userUpdate(key).then(res => {
+      userUpdate(key).then((res) => {
         this.$toast("修改成功~");
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

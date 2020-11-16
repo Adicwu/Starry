@@ -5,6 +5,7 @@
     :perpage="10"
     :isbind="isActive"
     target=".singer-detail"
+    v-loading="!flags.load"
     v-if="flags.load"
   >
     <template #contain="{curdata}">

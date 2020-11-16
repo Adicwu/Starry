@@ -156,14 +156,16 @@ export default {
 <style lang="less" scoped>
 .warrper {
   width: 100%;
-  height: 100%;
   overflow: hidden;
   .content {
     position: relative;
     overflow: hidden;
   }
   .content-x {
-    width: -webkit-max-content;
+    display: table;
+    overflow-y: hidden;
+    height: 100%;
+    white-space: nowrap;
   }
   .content-y {
     width: 100%;

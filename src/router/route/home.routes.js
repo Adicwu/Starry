@@ -15,6 +15,8 @@ const DjSquare = () => import('@/views/Square/DjSquare')
 
 const SingerAlbum = () => import('@/views/Singer/routes/SingerAlbum')
 
+const SongComment = () => import('@/views/Comment/SongComment')
+
 const UserDetail = () => import('@/views/User/UserDetail')
 const UserSonglist = () => import('@/views/User/routes/UserSonglist')
 const UserInfo = () => import('@/views/User/routes/UserInfo')
@@ -24,94 +26,101 @@ const UserChatroom = () => import('@/views/User/UserChatroom')
 const UserFriend = () => import('@/views/User/UserFriend')
 
 const Details = [{
-		path: 'songdetail',
-		component: SongDetail,
+	path: 'songdetail',
+	component: SongDetail,
+	meta: {
+		title: '歌单 - Starry'
+	},
+},
+{
+	path: 'mvdetail',
+	component: MvDetail,
+	meta: {
+		title: 'Mv - Starry'
+	},
+},
+{
+	path: 'videodetail',
+	name: 'VideoDetail',
+	component: VideoDetail,
+	meta: {
+		title: '视频 - Starry'
+	},
+},
+{
+	path: 'userdetail',
+	component: UserDetail,
+	meta: {
+		title: '用户 - Starry'
+	},
+	children: [{
+		path: 'usersonglist',
+		component: UserSonglist,
 		meta: {
-			title: '歌单 - Starry'
+			title: '用户歌单 - Starry'
 		},
 	},
 	{
-		path: 'mvdetail',
-		component: MvDetail,
+		path: 'userinfo',
+		component: UserInfo,
 		meta: {
-			title: 'Mv - Starry'
+			title: '我的资料 - Starry'
 		},
 	},
 	{
-		path: 'videodetail',
-		name: 'VideoDetail',
-		component: VideoDetail,
+		path: 'trenddetail',
+		component: UsetTrendDetail,
 		meta: {
-			title: '视频 - Starry'
+			title: '动态详情 - Starry'
 		},
-	},
-	{
-		path: 'userdetail',
-		component: UserDetail,
-		meta: {
-			title: '用户 - Starry'
-		},
-		children: [{
-				path: 'usersonglist',
-				component: UserSonglist,
-				meta: {
-					title: '用户歌单 - Starry'
-				},
-			},
-			{
-				path: 'userinfo',
-				component: UserInfo,
-				meta: {
-					title: '我的资料 - Starry'
-				},
-			},
-			{
-				path: 'trenddetail',
-				component: UsetTrendDetail,
-				meta: {
-					title: '动态详情 - Starry'
-				},
-			}
+	}
 
-		]
+	]
+},
+{
+	path: 'singerdetail',
+	component: SingerDetail,
+	meta: {
+		title: '歌手 - Starry'
 	},
-	{
-		path: 'singerdetail',
-		component: SingerDetail,
-		meta: {
-			title: '歌手 - Starry'
-		},
+},
+{
+	path: 'djdetail',
+	component: DjDetail,
+	meta: {
+		title: '电台 - Starry'
 	},
-	{
-		path: 'djdetail',
-		component: DjDetail,
-		meta: {
-			title: '电台 - Starry'
-		},
-	},
+},
 ];
 const Squares = [{
-		path: 'songltsquare',
-		component: SonglistSquare,
-		meta: {
-			title: '歌单广场 - Starry'
-		},
+	path: 'songltsquare',
+	component: SonglistSquare,
+	meta: {
+		title: '歌单广场 - Starry'
 	},
-	{
-		path: 'mvsquare',
-		component: MvSquare,
-		meta: {
-			title: 'Mv广场 - Starry'
-		},
+},
+{
+	path: 'mvsquare',
+	component: MvSquare,
+	meta: {
+		title: 'Mv广场 - Starry'
 	},
-	{
-		path: 'djsquare',
-		component: DjSquare,
-		meta: {
-			title: '电台广场 - Starry'
-		},
+},
+{
+	path: 'djsquare',
+	component: DjSquare,
+	meta: {
+		title: '电台广场 - Starry'
 	},
+},
 ];
+const comment = [{
+	path: 'songcomment',
+	component: SongComment,
+	meta: {
+		title: '歌曲评论 - Starry'
+	},
+}]
 export default {
 	path: '/home',
 	component: Home,
@@ -121,6 +130,7 @@ export default {
 	children: [
 		...Details,
 		...Squares,
+		...comment,
 		{
 			path: 'search',
 			component: HomeSearch,

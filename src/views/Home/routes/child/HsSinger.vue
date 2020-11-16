@@ -1,6 +1,7 @@
 <template>
   <div class="home-search-singer">
       <ArtistItem v-for="(item,index) in artists" :key="index" :detail="item" />
+      <p v-if="artists.length===0">--没有相关内容--</p> 
   </div>
 </template>
 
@@ -36,5 +37,11 @@ export default {
 <style lang="less" scoped>
 .home-search-singer {
   width: 100%;
+  p{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 18px;
+  }
 }
 </style>

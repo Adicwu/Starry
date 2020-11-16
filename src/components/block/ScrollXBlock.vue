@@ -7,7 +7,7 @@
 				<van-icon name="arrow" />
 			</span>
 		</div>
-		<Scroll scrollX class="_contain">
+		<Scroll scrollX class="scrollx-block__contain">
 			<slot name="card"></slot>
 		</Scroll>
 	</div>
@@ -43,7 +43,6 @@ export default {
 			margin-right: 10px;
 			display: flex;
 			align-items: center;
-			ing: 2px 4px;
 			font-size: 12px;
 			color: #A8BBBC;
 			i{
@@ -51,9 +50,9 @@ export default {
 			}
 		}
 	}
-	._contain {
+	&__contain {
 		margin-top: 20px;
-		width: 100%;
+		height: 100%;
 	}
 }
 </style>

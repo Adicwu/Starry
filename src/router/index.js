@@ -2,7 +2,6 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 
 const routerList = []
-
 function importAll(routerArr) {
 	routerArr.keys().forEach(key => {
 		routerList.push(routerArr(key).default)

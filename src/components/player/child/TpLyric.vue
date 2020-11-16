@@ -96,7 +96,7 @@ export default {
 						}
 					});
 				} else {
-					this.lyric.length = 0;
+					this.lyric.splice(0);
 				}
 			});
 		},

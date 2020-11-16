@@ -1,13 +1,16 @@
 <template>
-  <div class="artist-item" @click="toMainPage('/home/singerdetail',detail.id)">
-    <img :src="detail.picUrl+squareImgSize" v-img-lazyload alt />
+  <div class="artist-item" @click="toMainPage('/home/singerdetail', detail.id)">
+    <img
+      :src="detail.picUrl + squareImgSize"
+      v-if="detail.picUrl"
+      v-img-lazyload
+      alt
+    />
     <p class="text-truncate">
-      {{detail.name}}
-      <a v-if="artistElseName">{{artistElseName}}</a>
+      {{ detail.name }}
+      <a v-if="artistElseName">{{ artistElseName }}</a>
     </p>
-    <span v-if="isSettlein">
-      <van-icon name="contact" />已入驻
-    </span>
+    <span v-if="isSettlein"> <van-icon name="contact" />已入驻 </span>
   </div>
 </template>
 
@@ -15,7 +18,7 @@
 export default {
   name: "artistitem",
   props: {
-    detail: Object
+    detail: Object,
   },
   computed: {
     artistElseName() {
@@ -24,7 +27,7 @@ export default {
     },
     isSettlein() {
       return typeof this.detail.accountId !== "undefined";
-    }
+    },
   },
 };
 </script>
@@ -32,7 +35,7 @@ export default {
 .artist-item {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 40px 1fr 54px;
+  grid-template-columns: 40px 1fr 70px;
   width: 100%;
   height: 60px;
   padding: 10px 16px;

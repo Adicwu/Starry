@@ -1,9 +1,14 @@
 <template>
   <li class="djradio-item" @click="toMainPage('/home/djdetail', info.id)">
-    <img :src="info.picUrl+squareImgSize" v-img-lazyload alt />
+    <img
+      :src="info.picUrl + squareImgSize"
+      v-if="info.picUrl"
+      v-img-lazyload
+      alt
+    />
     <div>
-      <span class="text-truncate">{{info.name}}</span>
-      <p class="text-truncate">{{info.dj.nickname}}</p>
+      <span class="text-truncate">{{ info.name }}</span>
+      <p class="text-truncate">{{ info.dj.nickname }}</p>
     </div>
   </li>
 </template>
@@ -12,7 +17,7 @@
 export default {
   name: "djradioitem",
   props: {
-    info: Object
+    info: Object,
   },
 };
 </script>

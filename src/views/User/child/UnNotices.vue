@@ -28,7 +28,6 @@ export default {
     mainRequest() {
       noticesMsg(this.user.userid).then(res => {
         this.notices = res.data.notices;
-        console.log(res.data);
       });
     }
   }

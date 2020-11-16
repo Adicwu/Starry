@@ -6,7 +6,11 @@
       @click.native="$router.push('/login')"
       v-if="!user.flag"
     />
-    <Fullscreen v-for="(item, index) in videos" class="village-item" :key="index">
+    <Fullscreen
+      v-for="(item, index) in videos"
+      class="village-item"
+      :key="index"
+    >
       <ScreenVideo :detail="item.data" :isReady="curVideo === index" />
     </Fullscreen>
   </FullscreenScroll>
@@ -22,14 +26,14 @@ export default {
   components: {
     Fullscreen,
     FullscreenScroll,
-    ScreenVideo
+    ScreenVideo,
   },
   inject: ["user"],
   data() {
     return {
       videos: [],
       offset: 0,
-      curVideo: 0
+      curVideo: 0,
     };
   },
   watch: {
@@ -37,17 +41,17 @@ export default {
       immediate: true,
       handler(val) {
         val && this.mainRequest();
-      }
+      },
     },
     curVideo(val) {
       if (this.videos.length - val <= 2) this.mainRequest();
-    }
+    },
   },
   methods: {
     mainRequest() {
-      rmdVideo(this.offset).then(res => {
+      rmdVideo(this.offset).then((res) => {
         let rel = res.data.datas.filter(
-          item => typeof item.data.creator !== "undefined"
+          (item) => typeof item.data.creator !== "undefined"
         );
         this.videos.push(...rel);
         this.offset += 4;
@@ -55,8 +59,8 @@ export default {
     },
     indexHanlder(index) {
       this.curVideo = index;
-    }
-  }
+    },
+  },
 };
 </script>
 

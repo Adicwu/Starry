@@ -1,8 +1,8 @@
 <template>
-  <div class="video-detail-popup" :class="{'_active':visiable}">
+  <div class="video-detail-popup" :class="{ _active: visiable }">
     <div class="_popup-title">
       评论
-      <span>({{96}})</span>
+      <span>({{ 96 }})</span>
     </div>
     <BotLoadRequest
       v-if="visiable"
@@ -14,14 +14,22 @@
       <div class="_hot" v-if="hasHotComments">
         <p>精彩评论</p>
         <ul>
-          <CommentlistCard v-for="(item, index) in comment.hot" :key="index" :info="item" />
+          <CommentlistCard
+            v-for="(item, index) in comment.hot"
+            :key="index"
+            :info="item"
+          />
         </ul>
       </div>
-      <template #contain="{curdata}">
+      <template #contain="{ curdata }">
         <div class="_def" v-if="hasDefComments">
           <p>最新评论</p>
           <ul>
-            <CommentlistCard v-for="(item, index) in curdata" :key="index" :info="item" />
+            <CommentlistCard
+              v-for="(item, index) in curdata"
+              :key="index"
+              :info="item"
+            />
           </ul>
         </div>
       </template>
@@ -35,22 +43,23 @@ import CommentlistCard from "comps/card/CommentlistCard";
 export default {
   name: "videodetailpopup",
   components: {
-    CommentlistCard
+    CommentlistCard,
   },
   props: {
     visiable: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    videoId: String
+    videoId: String,
   },
+  watch: {},
   data() {
     return {
       comment: {
         top: [],
         def: [],
-        hot: []
-      }
+        hot: [],
+      },
     };
   },
   computed: {
@@ -62,14 +71,14 @@ export default {
     },
     hasTopComments() {
       return this.comment.top.length > 0;
-    }
+    },
   },
   mounted() {
     this.mainRequset();
   },
   methods: {
     mainRequset() {
-      videoComment(this.videoId).then(res => {
+      videoComment(this.videoId).then((res) => {
         this.initComment(res.data);
       });
     },
@@ -80,8 +89,12 @@ export default {
       let { comments, hotComments, topComments } = val;
       this.comment.hot = hotComments.slice(0, 5);
       this.comment.def = comments;
-    }
-  }
+    },
+    close() {
+      console.log("close");
+      this.$emit("update:visiable", false);
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

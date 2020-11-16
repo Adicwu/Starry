@@ -1,7 +1,15 @@
 <template>
   <li class="comment-list-card">
-    <div class="_avatar" @click="toMainPage('/home/userdetail',info.user.userId)">
-      <img :src="info.user.avatarUrl+squareImgSize" v-img-lazyload alt />
+    <div
+      class="_avatar"
+      @click="toMainPage('/home/userdetail', info.user.userId)"
+    >
+      <img
+        :src="info.user.avatarUrl + squareImgSize"
+        v-if="info.user.avatarUrl"
+        v-img-lazyload
+        alt
+      />
     </div>
     <div class="_content">
       <div class="_content-title">
@@ -13,11 +21,11 @@
           <span>{{ info.time | msToDate }}</span>
         </div>
         <span>
-          <a>{{ info.likedCount }}</a>
+          <a>{{ info.likedCount | numFormat }}</a>
           <i class="van-icon van-icon-good-job-o"></i>
         </span>
       </div>
-      <div class="_content-text">{{ info.content }}</div>
+      <pre class="_content-text" v-html="info.content"></pre>
     </div>
   </li>
 </template>
@@ -29,24 +37,26 @@ export default {
     info: Object,
     pageId: {
       type: [Number, String],
-      default: 0
-    }
+      default: 0,
+    },
   },
   filters: {
     msToDate(val) {
       let date = new Date(val);
-      return `${date.getFullYear()}年${date.getMonth()}月${date.getDay()}日`;
-    }
+      return `${date.getFullYear()}年${
+        date.getMonth() + 1
+      }月${date.getDay()}日`;
+    },
   },
   computed: {
     isAuthor() {
       return this.pageId == this.info.user.userId;
-    }
+    },
   },
   data() {
     return {};
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 
@@ -123,6 +133,9 @@ export default {
       margin-top: 6px;
       width: 100%;
       font-size: 14px;
+      line-height: 20px;
+      overflow: hidden;
+      white-space: pre-wrap;
     }
   }
 }

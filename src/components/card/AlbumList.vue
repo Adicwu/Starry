@@ -1,14 +1,19 @@
 <template>
-  <li class="album-list" @click="toMainPage('/home/singeralbum',info.id)">
+  <li class="album-list" @click="toMainPage('/home/singeralbum', info.id)">
     <div class="_cover">
-      <img :src="info.picUrl+squareImgSize" alt v-img-lazyload />
+      <img
+        :src="info.picUrl + squareImgSize"
+        v-if="info.picUrl"
+        alt
+        v-img-lazyload
+      />
     </div>
     <div class="_info">
       <p class="text-truncate">
-        {{info.name}}
-        <a v-if="hasSongNames">({{songNameTns || songNameElse}})</a>
+        {{ info.name }}
+        <a v-if="hasSongNames">({{ songNameTns || songNameElse }})</a>
       </p>
-      <span>{{info.publishTime |msToYmd}}{{` 歌曲${info.size}`}}</span>
+      <span>{{ info.publishTime | msToYmd }}{{ ` 歌曲${info.size}` }}</span>
     </div>
   </li>
 </template>
@@ -17,7 +22,7 @@
 export default {
   name: "albumlist",
   props: {
-    info: Object
+    info: Object,
   },
   computed: {
     songNameTns() {
@@ -30,8 +35,8 @@ export default {
     },
     hasSongNames() {
       return this.songNameTns || this.songNameElse;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -65,10 +70,9 @@ export default {
     }
     img {
       position: absolute;
-      border-radius: 2px;
-      width: 20%;
-      height: 20%;
-      transform: scale(5) translate(40%, 40%);
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
     }
   }
   ._info {

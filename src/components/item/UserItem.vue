@@ -1,12 +1,17 @@
 <template>
-  <div class="user-item" @click="toMainPage('/home/userdetail',detail.userId)">
-    <img :src="detail.avatarUrl+squareImgSize" v-img-lazyload alt />
+  <div class="user-item" @click="toMainPage('/home/userdetail', detail.userId)">
+    <img
+      :src="detail.avatarUrl + squareImgSize"
+      v-if="detail.avatarUrl"
+      v-img-lazyload
+      alt
+    />
     <div class="_info">
       <p class="text-truncate">
-        {{detail.nickname}}
+        {{ detail.nickname }}
         <i v-if="userGender" :class="userGender"></i>
       </p>
-      <a class="text-truncate" v-if="userSays">{{userSays}}</a>
+      <a class="text-truncate" v-if="userSays">{{ userSays }}</a>
     </div>
     <div class="_else">
       <span v-if="!followed">+ 关注</span>
@@ -22,8 +27,8 @@ export default {
     detail: Object,
     followed: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     userSays() {
@@ -42,8 +47,8 @@ export default {
         default:
           return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

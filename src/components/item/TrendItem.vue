@@ -1,28 +1,37 @@
 <template>
   <div class="trend-item" @click="toMain(info)">
     <div class="_title">
-      <img :src="info.user.avatarUrl+squareImgSize" alt @click.stop="toUser(info.user.userId)" />
+      <img
+        :src="info.user.avatarUrl + squareImgSize"
+        v-if="info.user.avatarUrl"
+        alt
+        @click.stop="toUser(info.user.userId)"
+      />
       <div>
         <p>
           <a @click.stop="toUser(info.user.userId)">{{ info.user.nickname }}</a>
-          {{anneType}}
+          {{ anneType }}
         </p>
         <span>{{ info.eventTime | dateFormat }}</span>
       </div>
     </div>
     <div class="contain">
       <pre class="_msg" v-html="info.pjson.msg"></pre>
-      <div class="_cover" v-if="annexPics.length>0">
+      <div class="_cover" v-if="annexPics.length > 0">
         <div
-          :class="[annexPics.length>1?'_cover-item':'_cover-one']"
-          v-for="(item,index) in annexPics"
+          :class="[annexPics.length > 1 ? '_cover-item' : '_cover-one']"
+          v-for="(item, index) in annexPics"
           :key="index"
         >
           <img :src="item.originUrl" alt />
         </div>
       </div>
-      <div class="_list" v-if="annexList" @click.stop="toMainPage('/home/songdetail',annexList.id)">
-        <img :src="annexList.coverImgUrl+squareImgSize" alt />
+      <div
+        class="_list"
+        v-if="annexList"
+        @click.stop="toMainPage('/home/songdetail', annexList.id)"
+      >
+        <img :src="annexList.coverImgUrl + squareImgSize" alt />
         <div>
           <p>{{ annexList.name }}</p>
           <span>by {{ annexList.creator.nickname }}</span>
@@ -30,7 +39,7 @@
       </div>
       <div class="_song" v-if="annexSong" @click.stop="playMusic(annexSong.id)">
         <span>
-          <img :src="annexSongCover+squareImgSize" alt />
+          <img :src="annexSongCover + squareImgSize" alt />
           <i class="van-icon van-icon-play"></i>
         </span>
         <div>
@@ -40,13 +49,17 @@
       </div>
       <div class="_event" v-if="annexEvent" @click.stop="toMain(annexEvent)">
         <div class="_event-msg">
-          <a @click.stop="toUser(annexEvent.user.userId)">@{{annexEvent.user.nickname}}:</a>
-          <pre class="_msg" :style="{textIndent: annexEventMsgIndent}">{{annexEvent.pjson.msg}}</pre>
+          <a @click.stop="toUser(annexEvent.user.userId)"
+            >@{{ annexEvent.user.nickname }}:</a
+          >
+          <pre class="_msg" :style="{ textIndent: annexEventMsgIndent }">{{
+            annexEvent.pjson.msg
+          }}</pre>
         </div>
-        <div class="_event-cover _cover" v-if="annexEventPics.length>0">
+        <div class="_event-cover _cover" v-if="annexEventPics.length > 0">
           <div
-            :class="[annexEventPics.length>1?'_cover-item':'_cover-one']"
-            v-for="(item,index) in annexEventPics"
+            :class="[annexEventPics.length > 1 ? '_cover-item' : '_cover-one']"
+            v-for="(item, index) in annexEventPics"
             :key="index"
           >
             <img :src="item.originUrl" alt />
@@ -55,9 +68,9 @@
         <div
           class="_event-list _list"
           v-if="annexEventList"
-          @click.stop="toMainPage('/home/songdetail',annexEventList.id)"
+          @click.stop="toMainPage('/home/songdetail', annexEventList.id)"
         >
-          <img :src="annexEventList.coverImgUrl+squareImgSize" alt />
+          <img :src="annexEventList.coverImgUrl + squareImgSize" alt />
           <div>
             <p>{{ annexEventList.name }}</p>
             <span>by {{ annexEventList.creator.nickname }}</span>
@@ -69,7 +82,7 @@
           @click.stop="playMusic(annexEventSong.id)"
         >
           <span>
-            <img :src="annexEventSongCover+squareImgSize" alt />
+            <img :src="annexEventSongCover + squareImgSize" alt />
             <i class="van-icon van-icon-play"></i>
           </span>
           <div>
@@ -95,25 +108,25 @@ export default {
     info: Object,
     tool: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       tools: [
         {
           icon: "van-icon-exchange",
-          text: "转发"
+          text: "转发",
         },
         {
           icon: "van-icon-chat-o",
-          text: "评论"
+          text: "评论",
         },
         {
           icon: "van-icon-good-job-o",
-          text: "赞"
-        }
-      ]
+          text: "赞",
+        },
+      ],
     };
   },
   computed: {
@@ -171,7 +184,7 @@ export default {
         val = "发布Mlog：";
       }
       return val;
-    }
+    },
   },
   filters: {
     dateFormat(val) {
@@ -180,7 +193,7 @@ export default {
         now_year = new Date().getFullYear(),
         final_year = now_year - year >= 1 ? year + "年" : "";
       return `${final_year}${date.getMonth() + 1}月${date.getDate()}日`;
-    }
+    },
   },
   mounted() {
     this.dataInit(this.info);
@@ -199,15 +212,15 @@ export default {
         info: {
           alg: null,
           id,
-          v: null
+          v: null,
         },
         obj: {
           list: [],
           id: null,
-          index: 0
-        }
+          index: 0,
+        },
       };
-      this.$store.dispatch("newMusic", key).then(res => {
+      this.$store.dispatch("newMusic", key).then((res) => {
         this.$bus.emit("playerOpen");
       });
     },
@@ -215,13 +228,13 @@ export default {
       let { id } = this.$route.query;
       this.$router.push({
         path: "/home/userdetail/trenddetail",
-        query: { detail, id }
+        query: { detail, id },
       });
     },
     toUser(id) {
       this.toMainPage("/home/userdetail", id);
-    }
-  }
+    },
+  },
 };
 </script>
 

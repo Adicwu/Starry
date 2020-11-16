@@ -1,15 +1,17 @@
 <template>
   <div class="dj-detail-similar">
-    <div class="_item" v-for="item in similar" :key="item.id">
-     <div class="_cover">
-        <img :src="item.picUrl+squareImgSize" alt v-img-loader/>
-     </div>
-      <div class="_info">
-        <span class="text-truncate">{{item.name}}</span>
-        <p class="text-truncate">{{item.desc}}</p>
-        <p>节目：{{item.programCount}}，订阅：34.1w</p>
+    <div v-loading="!loadFlag">
+      <div class="_item" v-for="item in similar" :key="item.id">
+        <div class="_cover">
+          <img :src="item.picUrl+squareImgSize" alt v-img-loader />
+        </div>
+        <div class="_info">
+          <span class="text-truncate">{{item.name}}</span>
+          <p class="text-truncate">{{item.desc}}</p>
+          <p>节目：{{item.programCount}}，订阅：34.1w</p>
+        </div>
+        <input type="button" value="订阅" />
       </div>
-      <input type="button" value="订阅" />
     </div>
   </div>
 </template>
@@ -19,8 +21,8 @@ import { relatedList } from "apis/else";
 import { rmdDj } from "apis/dj";
 export default {
   name: "djdetailsimilar",
-  props:{
-    type:Number
+  props: {
+    type: Number
   },
   data() {
     return {
@@ -38,17 +40,10 @@ export default {
   },
   methods: {
     mainRequset() {
-      rmdDj(this.type).then(res=>{
-        console.log(res.data)
+      rmdDj(this.type).then(res => {
         this.similar = res.data.djRadios;
         this.loadFlag = true;
-      })
-      // relatedList(this.pageId).then(res => {
-      //   console.log(res.data);
-        
-      //   this.related = res.data.playlists;
-      //   this.loadFlag = true;
-      // });
+      });
     }
   }
 };
@@ -66,10 +61,10 @@ export default {
     box-sizing: border-box;
     width: 100%;
     height: 16vw;
-    &:active{
-      background: rgba(0, 0, 0, .1);
+    &:active {
+      background: rgba(0, 0, 0, 0.1);
     }
-    ._cover{
+    ._cover {
       width: 100%;
       height: 100%;
       background: #def;

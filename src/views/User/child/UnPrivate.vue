@@ -1,5 +1,5 @@
 <template>
-  <ul class="user-news-private">
+  <ul class="user-news-private" v-loading="!flags.load">
     <PrivateMsgItem v-for="(item,index) in msgs" :key="index" :info="item" />
   </ul>
 </template>
@@ -15,7 +15,10 @@ export default {
   props: {},
   data() {
     return {
-      msgs: []
+      msgs: [],
+      flags: {
+        load: false
+      }
     };
   },
   computed: {},
@@ -26,6 +29,7 @@ export default {
     mainRequest() {
       privateMsg().then(res => {
         this.msgs = res.data.msgs;
+        this.flags.load = true;
       });
     }
   }

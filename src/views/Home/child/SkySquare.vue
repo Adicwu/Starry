@@ -21,16 +21,16 @@ export default {
   name: "skysquare",
   components: {
     SsRmdMv,
-    MvLgCard
+    MvLgCard,
   },
   data() {
     return {
       mv: {
         list: [],
-        curlist: []
+        curlist: [],
       },
       isScrollTop: true,
-      loadflag: false
+      loadflag: false,
     };
   },
   computed: {},
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     mainRequest() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve();
       });
     },
@@ -51,8 +51,8 @@ export default {
     },
     newMv(key) {
       return newMv(key);
-    }
-  }
+    },
+  },
 };
 </script>
 

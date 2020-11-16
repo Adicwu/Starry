@@ -9,7 +9,10 @@
         v-if="isReady"
       />
     </transition>
-    <transition enter-active-class="fadeInRight" leave-active-class="fadeOutRight">
+    <transition
+      enter-active-class="fadeInRight"
+      leave-active-class="fadeOutRight"
+    >
       <aside class="_tools animated" v-show="!video.status">
         <div class="_tools-avatar" @click.stop="toCreator">
           <img :src="creator.avatarUrl" alt />
@@ -31,7 +34,9 @@
       </aside>
     </transition>
     <footer class="_creator">
-      <b class="text-truncate" @click.stop="toCreator">@{{ creator.nickname }}</b>
+      <b class="text-truncate" @click.stop="toCreator"
+        >@{{ creator.nickname }}</b
+      >
       <p class="text-truncate">{{ detail.title }}</p>
     </footer>
     <div class="_unfold fa fa-arrows-alt" @click.stop="toMain"></div>
@@ -95,8 +100,8 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 14px;
-  background: #fff;
+  border-radius: 18px;
+  // background: #fff;
   & /deep/ ._player {
     video {
       width: unset;

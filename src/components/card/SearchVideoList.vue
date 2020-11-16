@@ -1,13 +1,18 @@
 <template>
   <li class="search-video-list" ref="contain" @click="toMain">
     <div class="_cover" ref="cover">
-      <img :src="info.coverUrl+rectangleImgSize" alt v-img-lazyload />
+      <img
+        :src="info.coverUrl + rectangleImgSize"
+        v-if="info.coverUrl"
+        alt
+        v-img-lazyload
+      />
     </div>
     <div class="_info">
-      <p class="text-truncate">{{info.title}}</p>
+      <p class="text-truncate">{{ info.title }}</p>
       <span>
-        {{info.durationms|toMs}}
-        <a :class="{'_active':info.type===0}">{{creatorName}}</a>
+        {{ info.durationms | toMs }}
+        <a :class="{ _active: info.type === 0 }">{{ creatorName }}</a>
       </span>
     </div>
   </li>
@@ -17,32 +22,26 @@
 export default {
   name: "searchvideolist",
   props: {
-    info: Object
+    info: Object,
   },
   data() {
     return {
-      imgSize: "?param=533y300"
+      imgSize: "?param=533y300",
     };
   },
   filters: {
     toMs(val) {
       let date = new Date(val),
-        min = date
-          .getMinutes()
-          .toString()
-          .padStart(2, 0),
-        seconds = date
-          .getSeconds()
-          .toString()
-          .padStart(2, 0);
+        min = date.getMinutes().toString().padStart(2, 0),
+        seconds = date.getSeconds().toString().padStart(2, 0);
       return `${min}:${seconds}`;
-    }
+    },
   },
   computed: {
     creatorName() {
       let { creator, type } = this.info;
       return type === 0 ? creator[0].userName : `by ${creator[0].userName}`;
-    }
+    },
   },
   methods: {
     toMain() {
@@ -56,8 +55,8 @@ export default {
       //   path: "/home/mvdetail",
       //   query
       // });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -78,9 +77,8 @@ export default {
     overflow: hidden;
     background: #def;
     img {
-      width: 20%;
-      height: 20%;
-      transform: scale(5) translate(40%, 40%);
+      width: 100%;
+      height: 100%;
     }
   }
   ._info {

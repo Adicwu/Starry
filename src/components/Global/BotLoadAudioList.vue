@@ -26,7 +26,7 @@
 <script>
 function throttle(fn, delay) {
   let flag = true;
-  return function() {
+  return function () {
     if (!flag) return;
     flag = false;
     setTimeout(() => {
@@ -42,41 +42,42 @@ export default {
   name: "botloadaudiolist",
   components: {
     AudioList,
-    AudioItem
+    AudioItem,
   },
   props: {
     perpage: {
       type: Number,
-      default: 5
+      default: 5,
     },
     listid: {
       type: Number,
-      default: 0
+      default: 0,
     },
     data: Array,
     type: {
       type: String,
-      default: "list"
+      default: "list",
     },
     fromBottom: {
       type: Number,
-      default: 20
+      default: 20,
     },
     target: {
       type: String,
-      default: ""
+      default: "",
     },
     isbind: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       flag: true,
       tpage: 1,
       curlist: [],
-      wait: false
+      wait: false,
+      isLoding: false,
     };
   },
   computed: {
@@ -93,12 +94,12 @@ export default {
       return this.target === ""
         ? this.$refs.contain
         : document.querySelector(this.target);
-    }
+    },
   },
   watch: {
     isbind(val) {
       val ? this.addEvent() : this.removeEvent();
-    }
+    },
   },
   mounted() {
     this.addItem();
@@ -118,35 +119,37 @@ export default {
     addItem() {
       let arr = [];
       if (this.data.length <= this.perpage) {
-        arr = this.data.map(item => item.id).toString();
+        arr = this.data.map((item) => item.id).toString();
         this.flag = false;
       } else {
         arr = this.data
           .slice(this.curlist.length, this.perpage * this.tpage)
-          .map(item => item.id)
+          .map((item) => item.id)
           .toString();
       }
       this.mainRequest(arr);
     },
     mainRequest(arr) {
-      Promise.all([songDetail(arr), songUrl(arr)]).then(res => {
+      this.isLoding = true;
+      Promise.all([songDetail(arr), songUrl(arr)]).then((res) => {
         let songs = res[0].data.songs;
         let song_url = res[1].data.data;
-        song_url.forEach(val => {
-          let index = songs.findIndex(item => val.id === item.id);
+        song_url.forEach((val) => {
+          let index = songs.findIndex((item) => val.id === item.id);
           songs[index].url = val.url;
         });
         this.curlist.push(...songs);
         this.wait = false;
+        this.isLoding = false;
       });
     },
-    mainScroll: throttle(function(e) {
-      if (!this.hasMore) return;
+    mainScroll: throttle(function (e) {
+      if (!this.hasMore || this.isLoding) return;
       let { scrollHeight, clientHeight, scrollTop } = e.target;
       if (scrollHeight - clientHeight - scrollTop < this.fromBottom) {
         this.loadMore();
       }
-    }, 200),
+    }, 30),
     loadMore() {
       this.tpage++;
       this.addItem();
@@ -156,11 +159,11 @@ export default {
       let obj = {
         list: this.data,
         id: this.listid,
-        index
+        index,
       };
       this.$store.dispatch("changeCurMusic", obj);
-    }
-  }
+    },
+  },
 };
 </script>
 

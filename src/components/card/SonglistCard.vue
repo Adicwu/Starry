@@ -1,7 +1,7 @@
 <template>
   <div class="songlist-card" @click="toMainPage('/home/songdetail', id)">
     <div class="_cover">
-      <img class="fade-ftin" :src="cover+squareImgSize" v-img-lazyload alt v-if="imgLoad" />
+      <img class="fade-ftin" :src="cover + squareImgSize" v-if="imgLoad" alt />
     </div>
     <div class="_msg" :class="{ '_msg-mask': !imgLoad }">{{ title }}</div>
     <div class="_mask" v-if="imgLoad">{{ count | numFormat }}</div>
@@ -15,20 +15,20 @@ export default {
     cover: String,
     title: String,
     id: Number,
-    count: Number
+    count: Number,
   },
   data() {
     return {
-      imgLoad: false
+      imgLoad: false,
     };
   },
   mounted() {
     const img = new Image();
-    img.src = this.cover;
-    img.onload = e => {
+    img.src = this.cover + this.squareImgSize;
+    img.onload = (e) => {
       this.imgLoad = true;
     };
-  }
+  },
 };
 </script>
 

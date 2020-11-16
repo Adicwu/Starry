@@ -1,28 +1,30 @@
 <template>
-  <div class="dj-detail-show" v-if="loadFlag">
-    <div class="_header">
-      <b>共{{programs.length}}期</b>
-      <span class="_header-sort" @click="sort.reverse=!sort.reverse">
-        <i class="van-icon van-icon-down" :class="{'sort-active':!sort.reverse}"></i>排序
-      </span>
-    </div>
-    <div class="_contain">
-      <div class="_contain-item" v-for="item in curPrograms" :key="item.id">
-        <label>{{item.index}}</label>
-        <div class="_contain-item-info">
-          <p class="text-truncate">{{item.name}}</p>
-          <div>
-            <a>{{item.createTime | toMonDay}}</a>
-            <a>
-              <i class="van-icon van-icon-play-circle-o"></i> 38.1w
-            </a>
-            <a>
-              <i class="van-icon van-icon-clock-o"></i>
-              {{item.duration | toMinute}}分钟+
-            </a>
+  <div class="dj-detail-show">
+    <div v-loading="!loadFlag">
+      <div class="_header">
+        <b>共{{programs.length}}期</b>
+        <span class="_header-sort" @click="sort.reverse=!sort.reverse">
+          <i class="van-icon van-icon-down" :class="{'sort-active':!sort.reverse}"></i>排序
+        </span>
+      </div>
+      <div class="_contain">
+        <div class="_contain-item" v-for="item in curPrograms" :key="item.id">
+          <label>{{item.index}}</label>
+          <div class="_contain-item-info">
+            <p class="text-truncate">{{item.name}}</p>
+            <div>
+              <a>{{item.createTime | toMonDay}}</a>
+              <a>
+                <i class="van-icon van-icon-play-circle-o"></i> 38.1w
+              </a>
+              <a>
+                <i class="van-icon van-icon-clock-o"></i>
+                {{item.duration | toMinute}}分钟+
+              </a>
+            </div>
           </div>
+          <span></span>
         </div>
-        <span></span>
       </div>
     </div>
   </div>

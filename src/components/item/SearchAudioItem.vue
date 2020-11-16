@@ -16,16 +16,11 @@
   </div>
 </template>
 <script>
-import { songUrl } from "apis/song";
+import { songUrl, songCheck } from "apis/song";
 export default {
   name: "searchaudioitem",
   props: {
-    detail: Object
-  },
-  data() {
-    return {
-      isUseful: true
-    };
+    detail: Object,
   },
   computed: {
     songNameRemark() {
@@ -33,43 +28,44 @@ export default {
     },
     fullSinger() {
       return (
-        this.detail.artists.map(item => item.name).join("/") +
+        this.detail.artists.map((item) => item.name).join("/") +
         " - " +
         this.detail.album.name
       );
-    }
-  },
-  watch: {
-    detail: {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        setTimeout(() => {
-          val.url == null && (this.isUseful = false);
-        }, 200);
-      }
-    }
+    },
+    isUseful() {
+      let { url } = this.detail;
+      return typeof url !== "object";
+    },
   },
   methods: {
-    changeMusic() {
+    async changeMusic() {
       if (!this.isUseful) return this.$toast("莫得资源~");
-      let key = {
-        info: {
-          alg: null,
-          id: this.detail.id,
-          v: null
-        },
-        obj: {
-          list: [],
-          id: null,
-          index: 0
+      try {
+        let {
+          data: { success },
+        } = await songCheck(this.detail.id);
+        if (success) {
+          console.log("do");
+          let key = {
+            info: {
+              alg: null,
+              id: this.detail.id,
+              v: null,
+            },
+            obj: {
+              list: [],
+              id: null,
+              index: 0,
+            },
+          };
+          this.$store.dispatch("newMusic", key).then((res) => {
+            this.$bus.emit("playerOpen");
+          });
         }
-      };
-      this.$store.dispatch("newMusic", key).then(res => {
-        this.$bus.emit("playerOpen");
-      });
-    }
-  }
+      } catch {}
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

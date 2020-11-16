@@ -1,16 +1,23 @@
 <template>
-  <van-popup class="home-aside" v-model="aside.flag" position="left" v-prevent-back="close">
+  <van-popup class="home-aside" v-model="aside.flag" position="left">
     <Scroll scrollY bounce class="_contain">
       <div class="_contain-banner">
         <div class="_contain-banner-avatar" @click="toUserDetail">
           <img :src="userinfo.avatarUrl" alt />
         </div>
-        <span>{{userinfo.nickname}}</span>
+        <span>{{ userinfo.nickname }}</span>
       </div>
       <div class="_contain-tools">
         <div class="_block-one">
-          <span v-for="(item, index) in icons" :key="index" @click="toElsePage(item.path)">
-            <van-icon :name="item.icon" :badge="item.badge >0?item.badge:''" />
+          <span
+            v-for="(item, index) in icons"
+            :key="index"
+            @click="toElsePage(item.path)"
+          >
+            <van-icon
+              :name="item.icon"
+              :badge="item.badge > 0 ? item.badge : ''"
+            />
             {{ item.text }}
           </span>
         </div>
@@ -22,7 +29,9 @@
           :key="index"
           class="_items van-icon"
           :class="item.icon"
-        >{{ item.text }}</div>
+        >
+          {{ item.text }}
+        </div>
       </div>
     </Scroll>
     <div class="_footer">
@@ -41,7 +50,7 @@ export default {
   data() {
     return {
       aside: {
-        flag: false
+        flag: false,
       },
       userinfo: {},
       icons: [
@@ -49,44 +58,44 @@ export default {
           icon: "envelop-o",
           text: "我的消息",
           path: "/home/usernews",
-          badge: 0
+          badge: 0,
         },
         {
           icon: "friends-o",
           text: "我的好友",
           path: "/home/userfriend",
-          badge: 0
+          badge: 0,
         },
         {
           icon: "wap-home-o",
           text: "个人主页",
           path: "/home/userdetail",
-          badge: 0
+          badge: 0,
         },
         {
           icon: "shop-o",
           text: "个性装扮",
           path: "/home",
-          badge: 0
-        }
+          badge: 0,
+        },
       ],
       items: [
         {
           icon: "van-icon-orders-o",
           text: "我的订单",
-          path: ""
+          path: "",
         },
         {
           icon: "van-icon-underway-o",
           text: "定时停止播放",
-          path: ""
+          path: "",
         },
         {
           icon: "van-icon-scan",
           text: "扫一扫",
-          path: ""
-        }
-      ]
+          path: "",
+        },
+      ],
     };
   },
   inject: ["user"],
@@ -94,9 +103,15 @@ export default {
     "aside.flag": {
       immediate: true,
       handler(val) {
-        val && this.user.flag && this.mainRequest();
-      }
-    }
+        if (val) {
+          if (window.history.state != "homeAside") {
+            window.history.pushState("homeAside", null, null);
+          }
+          window.onpopstate = this.close;
+          this.user.flag && this.mainRequest();
+        }
+      },
+    },
   },
   methods: {
     open() {
@@ -111,9 +126,9 @@ export default {
     },
     mainRequest() {
       let { userid } = this.user;
-      userEvent(userid).then(res => {
+      userEvent(userid).then((res) => {
         this.userinfo = res.data.events[1].user;
-        this.icons[2].path = `/home/userdetail?id=${this.user.userid}`
+        this.icons[2].path = `/home/userdetail?id=${this.user.userid}`;
       });
     },
     toUserDetail() {
@@ -121,11 +136,11 @@ export default {
       this.aside.flag = false;
       this.toMainPage("/home/userdetail", userId);
     },
-    toElsePage(path){
+    toElsePage(path) {
       this.aside.flag = false;
-      this.toMainPage(path)
-    }
-  }
+      this.toMainPage(path);
+    },
+  },
 };
 </script>
 

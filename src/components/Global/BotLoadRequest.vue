@@ -1,14 +1,20 @@
 <template>
-  <div class="botload-request" ref="contain" @scroll.passive="mainScroll($event)">
+  <div
+    class="botload-request"
+    ref="contain"
+    @scroll.passive="mainScroll($event)"
+  >
     <slot></slot>
     <slot name="contain" :curdata="curlist"></slot>
+    <div class="botload-request__none" v-if="!hasMore">-- 没有更多了 --</div>
+    <LoadingBlock v-if="isLoading" height="40px" />
   </div>
 </template>
 
 <script>
 function throttle(fn, delay) {
   let flag = true;
-  return function() {
+  return function () {
     if (!flag) return;
     flag = false;
     setTimeout(() => {
@@ -22,44 +28,63 @@ export default {
   props: {
     perpage: {
       type: Number,
-      default: 5
+      default: 5,
     },
     offset: {
       type: Boolean,
-      default: false
+      default: false,
     },
     fromBottom: {
       type: Number,
-      default: 20
+      default: 20,
     },
     lastKey: {
       type: String,
-      default: ""
+      default: "",
     },
     request: Function,
-    resword: String
+    resword: String,
   },
   data() {
     return {
-      flag: true,
       tpage: 1,
       curlist: [],
-      isLoading: false
+      isLoading: false,
+      hasMore: true,
     };
+  },
+  watch: {
+    request: {
+      immediate: false,
+      handler() {
+        this.clearData();
+        this.init();
+      },
+    },
   },
   mounted() {
     this.init();
   },
   methods: {
     init() {
-      this.request(this.perpage).then(res => {
+      this.request(this.perpage).then((res) => {
+        this.$emit("firstLoad", true);
         let rel = res.data[this.resword];
+        if (typeof rel === "undefined" || rel.length === 0) {
+          return (this.hasMore = false);
+        }
         this.curlist.push(...rel);
         this.breakdata();
       });
     },
-    mainScroll: throttle(function(e) {
-      if (!this.flag) return;
+    clearData() {
+      this.tpage = 1;
+      this.curlist.splice(0);
+      this.isLoading = false;
+      this.hasMore = true;
+    },
+    mainScroll: throttle(function (e) {
+      if (!this.hasMore) return;
       let { scrollHeight, clientHeight, scrollTop } = e.target;
       if (scrollHeight - clientHeight - scrollTop < this.fromBottom) {
         this.loadMore();
@@ -90,32 +115,37 @@ export default {
     },
     dfRequest(args) {
       this.request(...args)
-        .then(res => {
+        .then((res) => {
           let data = res.data[this.resword];
-          let rel = data.slice(-this.perpage);
-          this.curlist.push(...rel);
-          this.breakdata();
+          if (typeof data === "undefined") {
+            this.hasMore = false;
+            this.$toast("没有更多了嗷~");
+          } else {
+            let rel = data.slice(-this.perpage);
+            this.curlist.push(...rel);
+            this.breakdata();
+          }
         })
-        .finally(e => (this.isLoading = false));
+        .finally((e) => (this.isLoading = false));
     },
     offsetRequest(args) {
       this.request(...args)
-        .then(res => {
+        .then((res) => {
           let data = res.data[this.resword];
-          if (data.length === 0) {
-            this.flag = false;
+          if (typeof data === "undefined") {
+            this.hasMore = false;
             this.$toast("没有更多了嗷~");
           } else {
             this.curlist.push(...data);
             this.breakdata();
           }
         })
-        .finally(e => (this.isLoading = false));
+        .finally((e) => (this.isLoading = false));
     },
     breakdata() {
       this.$emit("breakdata", this.curlist);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -129,6 +159,11 @@ export default {
   overflow-x: hidden;
   & > :last-child {
     margin-bottom: 80px;
+  }
+  &__none{
+    text-align: center;
+    font-size: 12px;
+    margin-top: 18px;
   }
 }
 </style>

@@ -9,21 +9,32 @@
       :background="navBackground"
       line-height="0"
     >
-      <span class="nav-aside van-icon van-icon-bars" @click="openAside" slot="nav-left"></span>
+      <span
+        class="nav-aside van-icon van-icon-bars"
+        @click="openAside"
+        slot="nav-left"
+      ></span>
       <span
         class="nav-aside van-icon van-icon-search"
         @click="toMainPage('/home/search')"
         slot="nav-right"
       ></span>
-      <van-tab v-for="(item, index) in nav.list" :key="index" :title="item.text">
+      <van-tab
+        v-for="(item, index) in nav.list"
+        :key="index"
+        :title="item.text"
+      >
         <div :is="item.comp"></div>
       </van-tab>
     </van-tabs>
     <HomeAside ref="homeaside" v-if="user.flag" />
     <SongPopup />
-    <transition enter-active-class="fade-ftin" leave-active-class="child-route-out">
+    <transition
+      enter-active-class="fade-ftin"
+      leave-active-class="child-route-out"
+    >
       <router-view />
-    </transition>
+    </transition>-
   </div>
 </template>
 
@@ -42,7 +53,7 @@ export default {
     UserCenter,
     Village,
     HomeAside,
-    SongPopup
+    SongPopup,
   },
   inject: ["user"],
   data() {
@@ -52,10 +63,10 @@ export default {
           { text: "我的", comp: "UserCenter" },
           { text: "发现", comp: "Explore" },
           { text: "云村", comp: "Village" },
-          { text: "视频", comp: "SkySquare" }
+          { text: "视频", comp: "SkySquare" },
         ],
-        active: 0
-      }
+        active: 1,
+      },
     };
   },
   computed: {
@@ -70,8 +81,8 @@ export default {
     openAside() {
       let key = this.$refs.homeaside;
       typeof key !== "undefined" && key.open();
-	},
-  }
+    },
+  },
 };
 </script>
 

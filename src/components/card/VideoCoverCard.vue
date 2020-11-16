@@ -3,13 +3,13 @@
     <div class="_cover van-icon van-icon-play">
       <img :src="info.coverUrl" v-img-lazyload :style="coverSize" alt />
     </div>
-    <div class="_msg paragraph-truncate">{{info.title}}</div>
+    <div class="_msg paragraph-truncate">{{ info.title }}</div>
     <div class="_creator" v-if="hasCreator">
       <div>
-        <img :src="info.creator.avatarUrl" v-img-lazyload alt/>
-        <span class="text-truncate">{{info.creator.nickname}}</span>
+        <img :src="info.creator.avatarUrl" v-img-lazyload alt />
+        <span class="text-truncate">{{ info.creator.nickname }}</span>
       </div>
-      <span>{{info.praisedCount}}赞</span>
+      <span>{{ info.praisedCount }}赞</span>
     </div>
   </div>
 </template>
@@ -18,17 +18,17 @@
 export default {
   name: "videocovercard",
   props: {
-    info: Object
+    info: Object,
   },
   data() {
     return {
-      coverSize: {}
+      coverSize: {},
     };
   },
   computed: {
-      hasCreator(){
-          return typeof this.info.creator !== 'undefined'
-      }
+    hasCreator() {
+      return typeof this.info.creator !== "undefined";
+    },
   },
   mounted() {
     this.initCoverSize();
@@ -43,17 +43,17 @@ export default {
       //   height: clientHeight + "px"
       // };
     },
-    toMain(){
-        let query = {
-            pos: this.$refs.contain.getBoundingClientRect(),
-            detail: this.info
-        };
-        this.$router.push({
-            name: 'VideoDetail',
-            query
-        })
-    }
-  }
+    toMain() {
+      let query = {
+        pos: this.$refs.contain.getBoundingClientRect(),
+        detail: this.info,
+      };
+      this.$router.push({
+        name: "VideoDetail",
+        query,
+      });
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -73,7 +73,7 @@ export default {
     position: relative;
     width: 100%;
     overflow: hidden;
-    img{
+    img {
       width: 100%;
     }
     &::before {

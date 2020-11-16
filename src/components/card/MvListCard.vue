@@ -2,12 +2,17 @@
   <li class="mv-list-card" @click="toMain">
     <div class="mv-list-card-info">
       <h4
-        :class="{'skeleton':!imgflag,'text-truncate':info.introduction!=undefined}"
-      >{{ info.title }}</h4>
-      <p :class="{'skeleton':!imgflag}">{{ creator }}</p>
+        :class="{
+          skeleton: !imgflag,
+          'text-truncate': info.introduction != undefined,
+        }"
+      >
+        {{ info.title }}
+      </h4>
+      <p :class="{ skeleton: !imgflag }">{{ creator }}</p>
     </div>
     <div class="mv-list-card-img">
-      <img v-if="imgflag" :src="info.coverUrl+rectangleImgSize" v-img-lazyload alt />
+      <img v-if="imgflag" :src="info.coverUrl + rectangleImgSize" alt />
     </div>
   </li>
 </template>
@@ -16,29 +21,31 @@
 export default {
   name: "mvlistcard",
   props: {
-    info: Object
+    info: Object,
   },
   data() {
     return {
-      imgflag: false
+      imgflag: false,
     };
   },
   computed: {
     creator() {
-      return this.info.creator.map(item => item.userName).join("/");
-    }
+      return this.info.creator.map((item) => item.userName).join("/");
+    },
   },
   mounted() {
     let new_img = new Image();
-    new_img.src = this.info.coverUrl;
+    new_img.src = this.info.coverUrl + this.rectangleImgSize;
     new_img.onload = () => (this.imgflag = true);
   },
   methods: {
     toMain() {
       let id = Number(this.info.vid);
-      isNaN(id) ? this.$toast("not num") : this.toMainPage("/home/mvdetail", id);
-    }
-  }
+      isNaN(id)
+        ? this.$toast("not num")
+        : this.toMainPage("/home/mvdetail", id);
+    },
+  },
 };
 </script>
 

@@ -1,15 +1,22 @@
 <template>
   <li class="privatemsg-item">
     <div class="_cover">
-      <img :src="sender.avatarUrl+squareImgSize" v-img-lazyload alt />
+      <img
+        :src="sender.avatarUrl + squareImgSize"
+        v-if="sender.avatarUrl"
+        v-img-lazyload
+        alt
+      />
     </div>
     <div class="_info">
-      <span>{{sender.nickname}}</span>
-      <p class="text-truncate">{{detail.msg}}</p>
+      <span>{{ sender.nickname }}</span>
+      <p class="text-truncate">{{ detail.msg }}</p>
     </div>
     <div class="_else">
-      <span>{{info.lastMsgTime|toYd}}</span>
-      <div class="_else-tips" v-if="info.newMsgCount>0">{{info.newMsgCount}}</div>
+      <span>{{ info.lastMsgTime | toYd }}</span>
+      <div class="_else-tips" v-if="info.newMsgCount > 0">
+        {{ info.newMsgCount }}
+      </div>
     </div>
   </li>
 </template>
@@ -18,13 +25,13 @@
 export default {
   name: "PrivateMsgItem",
   props: {
-    info: Object
+    info: Object,
   },
   filters: {
     toYd(val) {
       let date = new Date(val);
       return `${date.getMonth() + 1}月${date.getDate()}日`;
-    }
+    },
   },
   computed: {
     sender() {
@@ -32,15 +39,15 @@ export default {
     },
     detail() {
       return JSON.parse(this.info.lastMsg);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 .privatemsg-item {
   position: relative;
   display: grid;
-  grid-template-columns: 48px 1fr 40px;
+  grid-template-columns: 48px 1fr 58px;
   width: 100%;
   height: 60px;
   box-sizing: border-box;

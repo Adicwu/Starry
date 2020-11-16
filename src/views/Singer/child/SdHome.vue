@@ -1,43 +1,45 @@
 <template>
-  <div class="singer-detail-home" v-if="flags.load">
-    <div class="_hotsong">
-      <div class="_title">
-        <b class="van-icon van-icon-fire-o">最近热门</b>
-        <input type="button" value="更多热歌" @click="changeNav(1)" />
-      </div>
-      <ul class="_hotsong-contain">
-        <AudioCoverList v-for="item in singerMix.hotThree" :info="item" :key="item.id" />
-      </ul>
-    </div>
-    <div class="_singer">
-      <div class="_title" v-if="singerMixDesc">
-        <b>歌手简介</b>
-        <input type="button" value="更多信息" @click="flags.singerMsg=true" />
-      </div>
-      <div class="_singer-contain">{{singerMixDesc.briefDesc}}</div>
-    </div>
-    <van-popup
-      class="singer-detail-popup"
-      v-model="flags.singerMsg"
-      round
-      closeable
-      position="bottom"
-      get-container=".singer-detail"
-      :style="{height: '70%'}"
-      v-prevent-back="closePopup"
-      v-if="singerMixDesc"
-    >
-      <div class="_contain">
-        <div>
-          <p>{{singerMix.detail.name}}简介</p>
-          <div class="singer-more-context">{{singerMixDesc.briefDesc}}</div>
+  <div class="singer-detail-home">
+    <div v-loading="!flags.load">
+      <div class="_hotsong">
+        <div class="_title">
+          <b class="van-icon van-icon-fire-o">最近热门</b>
+          <input type="button" value="更多热歌" @click="changeNav(1)" />
         </div>
-        <div v-for="(item,index) in singerMixDesc.introduction" :key="index">
-          <p>{{item.ti}}</p>
-          <div class="singer-more-context">{{item.txt}}</div>
-        </div>
+        <ul class="_hotsong-contain">
+          <AudioCoverList v-for="item in singerMix.hotThree" :info="item" :key="item.id" />
+        </ul>
       </div>
-    </van-popup>
+      <div class="_singer">
+        <div class="_title" v-if="singerMixDesc">
+          <b>歌手简介</b>
+          <input type="button" value="更多信息" @click="flags.singerMsg=true" />
+        </div>
+        <div class="_singer-contain">{{singerMixDesc.briefDesc}}</div>
+      </div>
+      <van-popup
+        class="singer-detail-popup"
+        v-model="flags.singerMsg"
+        round
+        closeable
+        position="bottom"
+        get-container=".singer-detail"
+        :style="{height: '70%'}"
+        v-prevent-back="closePopup"
+        v-if="singerMixDesc"
+      >
+        <div class="_contain">
+          <div>
+            <p>{{singerMix.detail.name}}简介</p>
+            <div class="singer-more-context">{{singerMixDesc.briefDesc}}</div>
+          </div>
+          <div v-for="(item,index) in singerMixDesc.introduction" :key="index">
+            <p>{{item.ti}}</p>
+            <div class="singer-more-context">{{item.txt}}</div>
+          </div>
+        </div>
+      </van-popup>
+    </div>
   </div>
 </template>
 

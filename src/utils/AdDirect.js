@@ -77,9 +77,15 @@ AdDirect.install = (Vue, options = {}) => {
 		bind(el, binding) {
 			el.url = el.src;
 			el.src = '';
+			el.style.opacity = 0;
 			el.lazyImageObserver = new IntersectionObserver((entries, observer) => {
 				if (entries[0].intersectionRatio > 0 || entries[1] && entries[1].intersectionRatio > 0) {
-					el.src = el.url;
+					const image = new Image();
+					image.src = el.url;
+					image.onload = function () {
+						el.src = el.url;
+						el.style.opacity = 1;
+					}
 				}
 			});
 			el.lazyImageObserver.observe(el);
@@ -135,7 +141,9 @@ AdDirect.install = (Vue, options = {}) => {
 	Vue.directive('preventBack', {
 		bind(el, binding) {
 			el.preventBack = binding.value
-			window.history.pushState(null, null, document.URL)
+			if (window.history.state != 'dfBreak') {
+				window.history.pushState('dfBreak', null, null)
+			}
 			window.addEventListener('popstate', el.preventBack)
 		},
 		unbind(el) {

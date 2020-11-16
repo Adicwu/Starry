@@ -1,7 +1,7 @@
 <template>
   <div class="circle-card">
     <div class="circle-card-cover" ref="cover">
-      <ImgLoader class="_cover" :src="cover+squareImgSize" />
+      <ImgLoader class="_cover" :src="cover + squareImgSize" />
     </div>
     <p class="paragraph-truncate">{{ name }}</p>
     <p class="text-truncate">{{ msg }}</p>
@@ -14,19 +14,19 @@ export default {
   props: {
     cover: String,
     name: String,
-    msg: String
+    msg: String,
   },
   computed: {
     coverPos() {
       return this.$refs.cover.getBoundingClientRect();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .circle-card {
-  float: left;
+  display: inline-block;
   margin-left: 18px;
   width: 96px;
   height: 100%;

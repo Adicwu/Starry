@@ -28,7 +28,6 @@ export default {
     mainRequest() {
       forwardsMsg(this.user.userid).then(res => {
         this.forwards = res.data.forwards;
-        console.log(res.data.forwards);
       });
     }
   }

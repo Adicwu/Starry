@@ -5,7 +5,7 @@
       type="list"
       :data="detail.list"
       :listid="detail.id"
-      :perpage="10"
+      :perpage="30"
       v-if="loadflag"
     >
       <BreakHeader fixed />
@@ -34,7 +34,7 @@ import SdBanner from "./child/SdBanner";
 export default {
   name: "songdetail",
   components: {
-    SdBanner
+    SdBanner,
   },
   data() {
     return {
@@ -44,8 +44,8 @@ export default {
       curlist: [],
       sdPopup: {
         info: {},
-        flag: false
-      }
+        flag: false,
+      },
     };
   },
   computed: {
@@ -64,19 +64,19 @@ export default {
     },
     muscicStatus() {
       return this.$store.state.music.status === 0 ? "play" : "pause";
-    }
+    },
   },
   watch: {
     detailId: {
       immediate: true,
       handler(newVal, oldVal) {
         newVal !== oldVal && this.mainRequest();
-      }
-    }
+      },
+    },
   },
   methods: {
     mainRequest() {
-      songlistDetail(this.detailId).then(res => {
+      songlistDetail(this.detailId).then((res) => {
         let { playlist } = res.data;
         let rel = {
           cover: playlist.coverImgUrl,
@@ -88,8 +88,8 @@ export default {
           creator: {
             avatar: playlist.creator.avatarUrl,
             name: playlist.creator.nickname,
-            userId: playlist.userId
-          }
+            userId: playlist.userId,
+          },
         };
         this.detail = { ...rel };
         this.loadflag = true;
@@ -97,8 +97,8 @@ export default {
     },
     currentlist(val) {
       this.curlist = val;
-    }
-  }
+    },
+  },
 };
 </script>
 

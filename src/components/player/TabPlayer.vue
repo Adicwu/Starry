@@ -7,10 +7,6 @@
       @click="switchflag = true"
       v-show="containflag"
     >
-      <div class="_progress">
-        <div class="_progress-contain" :style="{ width: `${curProgress}px` }"></div>
-      </div>
-
       <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
         <div
           class="_banner"
@@ -18,18 +14,28 @@
           :style="{ backgroundImage: `url(${curMusicCover})` }"
         ></div>
       </transition>
-      <div class="_info" v-show="!lyricflag" :class="{ '_active-info': switchflag }">
-        <p :class="[switchflag ? 'paragraph-truncate' : 'text-truncate']">{{ musicName }}</p>
+      <div
+        class="_info"
+        v-show="!lyricflag"
+        :class="{ '_active-info': switchflag }"
+      >
+        <p :class="[switchflag ? 'paragraph-truncate' : 'text-truncate']">
+          {{ musicName }}
+        </p>
         <p class="text-truncate" @click="toSingerDetail">{{ singerName }}</p>
       </div>
       <TpCover v-show="!lyricflag" />
       <TpCricleProgress ref="tpcprogress" v-show="switchflag && !lyricflag" />
-      <div class="_num-progress" v-show="switchflag && !lyricflag">
-        <span>{{ audio.current | musicTimeTrans }}</span>
-        <span>{{ audio.total | musicTimeTrans }}</span>
-      </div>
 
       <TpControl v-show="!lyricflag" />
+      <div class="_tools" v-show="!lyricflag && switchflag">
+        <TpProgress
+          :audio="audio"
+          :dom="$refs.myaudio"
+          :visiable="!lyricflag && switchflag"
+        />
+        <TpTools :song="curMusic" />
+      </div>
       <TpLyric v-show="lyricflag" />
       <TpLists v-show="switchflag" @visiable="tpListsVisiable" ref="tplists" />
 
@@ -40,11 +46,12 @@
       >
         <RadioItems v-model="singer.selectId">
           <SingerRadioItem
-            v-for="(item,index) in singer.selectList"
+            v-for="(item, index) in singer.selectList"
             :name="index"
             :key="item.id"
             @click.native="singerHandler"
-          >{{item.name}}</SingerRadioItem>
+            >{{ item.name }}</SingerRadioItem
+          >
         </RadioItems>
       </MovableMask>
 
@@ -59,6 +66,8 @@ import TpCricleProgress from "./child/TpCricleProgress";
 import TpControl from "./child/TpControl";
 import TpCover from "./child/TpCover";
 import TpLyric from "./child/TpLyric";
+import TpProgress from "./child/TpProgress";
+import TpTools from "./child/TpTools";
 import RadioItems from "comps/form/RadioItems";
 import SingerRadioItem from "comps/item/SingerRadioItem";
 import MovableMask from "../common/MovableMask";
@@ -69,11 +78,13 @@ export default {
     TpLists,
     TpCricleProgress,
     TpControl,
+    TpProgress,
     TpCover,
     TpLyric,
+    TpTools,
     RadioItems,
     MovableMask,
-    SingerRadioItem
+    SingerRadioItem,
   },
   inject: ["user"],
   data() {
@@ -84,24 +95,31 @@ export default {
       tpListsflag: false,
       cover: {
         y: -20,
-        x: -46
+        x: -46,
       },
       audio: {
-        total: "00:00",
-        current: "00:00"
+        total: 0,
+        current: 0,
       },
       screen: {
-        width: 0
+        width: 0,
       },
       lyricflag: false,
       singer: {
         selectId: 0,
         selectList: [],
-        selectVisiable: false
-      }
+        selectVisiable: false,
+      },
     };
   },
   watch: {
+    $route: {
+      immediate: true,
+      handler(val) {
+        const excludes = ["/home/mvdetail", "/home/userdetail/usersonglist"];
+        this.containflag = !excludes.includes(val.path);
+      },
+    },
     musicUrl: {
       immediate: true,
       handler(val) {
@@ -111,39 +129,25 @@ export default {
             this.eventflag = true;
           });
         }
-      }
+      },
     },
     switchflag: {
       immediate: true,
       handler(val) {
         this.screenAnmHandler(val);
-        val ? this.dfBreak() : (this.lyricflag = false);
+        this.$store.commit("changePlayerFlag", val);
+      },
+    },
+    breakFlags(newRes) {
+      let key = this.compareLastUnsame(newRes, [false, false, false]);
+      let fn = ["close", "closeTpLists", "closeLyric"][key];
+      if (key != -1) {
+        if (window.history.state != "playerbreak") {
+          window.history.pushState("playerbreak", null, null);
+        }
+        window.onpopstate = this[fn];
       }
     },
-    tpListsflag(val) {
-      !val && this.dfBreak();
-    },
-    $route: {
-      immediate: true,
-      handler(val) {
-        const excludes = ["/home/mvdetail", "/home/userdetail/usersonglist"];
-        this.containflag = !excludes.includes(val.path);
-      }
-    }
-  },
-  filters: {
-    musicTimeTrans(val) {
-      if (parseInt(val) === 0 || isNaN(val)) return "00:00";
-      var totaltime = (val / 60)
-        .toFixed(2)
-        .toString()
-        .split(".");
-      var min = totaltime[0].padStart(2, "0");
-      var second = parseInt(totaltime[1] * 0.6)
-        .toString()
-        .padStart(2, "0");
-      return min + ":" + second;
-    }
   },
   computed: {
     musicUrl() {
@@ -159,7 +163,7 @@ export default {
       let info = this.curMusic;
       if (info == null) return "";
       let remark_name = info.alia[0],
-        singer = info.ar.map(item => item.name).join("/");
+        singer = info.ar.map((item) => item.name).join("/");
       return typeof remark_name != "undefined"
         ? `${info.name}(${remark_name}) - ${singer}`
         : `${info.name} - ${singer}`;
@@ -167,7 +171,7 @@ export default {
     singerName() {
       let info = this.curMusic;
       if (info == null) return "";
-      let singer = info.ar.map(item => item.name).join("/");
+      let singer = info.ar.map((item) => item.name).join("/");
       return singer;
     },
     singerId() {
@@ -183,12 +187,6 @@ export default {
         ? `${info.name}(${remark_name})`
         : `${info.name}`;
     },
-    curProgress() {
-      return (
-        parseInt((this.screen.width / this.audio.total) * this.audio.current) ||
-        1
-      );
-    },
     curMusicCover() {
       let size = "?param=711y400",
         dfPath =
@@ -196,7 +194,10 @@ export default {
       return this.curMusic != null
         ? this.curMusic.al.picUrl + size
         : dfPath + size;
-    }
+    },
+    breakFlags() {
+      return [this.switchflag, this.tpListsflag, this.lyricflag];
+    },
   },
   mounted() {
     this.screen.width = window.innerWidth;
@@ -252,12 +253,23 @@ export default {
     closeLyric() {
       this.lyricflag = false;
     },
+    closeTpLists() {
+      this.$refs.tplists.close();
+    },
     openLyric() {
       this.lyricflag = true;
     },
     dfBreak() {
-      window.history.pushState(null, null, document.URL);
-      window.onpopstate = this.close;
+      window.history.back();
+    },
+    compareLastUnsame(arr1, arr2) {
+      let res = -1;
+      arr1.forEach((item, index) => {
+        if (item != arr2[index]) {
+          res = index;
+        }
+      });
+      return res;
     },
     tpListsVisiable(val) {
       this.tpListsflag = val;
@@ -272,8 +284,8 @@ export default {
         this.cover.x = -46;
         this.cover.y = -20;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

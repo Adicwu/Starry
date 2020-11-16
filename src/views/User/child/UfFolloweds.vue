@@ -27,8 +27,6 @@ export default {
   methods: {
     mainRequest() {
       userFolloweds(this.user.userid).then(res => {
-        console.log(res.data.followeds);
-
         this.followeds = res.data.followeds;
       });
     }
