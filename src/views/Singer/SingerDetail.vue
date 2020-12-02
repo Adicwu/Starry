@@ -107,6 +107,10 @@ export default {
       return flag;
     }
   },
+  beforeRouteEnter(_,__,next){
+    console.log('router in');
+    next()
+  },
   mounted() {
     this.mainRequset();
   },
