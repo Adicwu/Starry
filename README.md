@@ -1,4 +1,4 @@
-# Starry 移动端音乐webapp
+# Starry 移动端音乐webapp（此项目已停止维护）
 ![6041ef606a374.jpg](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/27df42925152420c9a74d0bb6dca1db2~tplv-k3u1fbpfcp-watermark.image)
 
 ### 前提
